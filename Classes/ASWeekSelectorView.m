@@ -272,6 +272,7 @@
     UIView *view = [[UIView alloc] initWithFrame:CGRectNull];
     view.alpha = 0.2;
     view.backgroundColor = [UIColor blackColor];
+    view.userInteractionEnabled = NO;
     [self addSubview:view];
     _selectionView = view;
   }
