@@ -10,6 +10,11 @@
 
 @protocol ASWeekSelectorViewDelegate;
 
+/**
+ A mini week view to select a day. You can swipe through weeks and tap on days to select them, somewhat similar to the iOS 7 calendar app.
+ 
+ It's using the methodology described in Apple's WWDC 2011 session 104 "Advanced ScrollView Techniques".
+ */
 @interface ASWeekSelectorView : UIView
 
 /**
