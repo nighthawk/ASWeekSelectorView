@@ -55,7 +55,13 @@
                             <constraint firstAttribute="trailing" secondItem="cfS-TK-ad1" secondAttribute="trailing" id="qqJ-gC-ahJ"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" title="Example" id="iiV-EP-m0c"/>
+                    <navigationItem key="navigationItem" title="Example" id="iiV-EP-m0c">
+                        <barButtonItem key="leftBarButtonItem" title="Today" id="xoV-cc-bca">
+                            <connections>
+                                <action selector="todayButtonPressed:" destination="vXZ-lx-hvc" id="zha-sz-yDg"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                     <connections>
                         <outlet property="label" destination="w9l-8I-EIJ" id="Y8f-W8-hg6"/>
                         <outlet property="weekSelector" destination="cfS-TK-ad1" id="zRs-lK-ev6"/>

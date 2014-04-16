@@ -15,4 +15,6 @@
 @property (weak, nonatomic) IBOutlet ASWeekSelectorView *weekSelector;
 @property (weak, nonatomic) IBOutlet UILabel *label;
 
+- (IBAction)todayButtonPressed:(id)sender;
+
 @end

@@ -35,14 +35,17 @@
   [self rebuildWeeks];
 }
 
-- (void)setSelectedDate:(NSDate *)selectedDate
-{
-  [self setSelectedDate:selectedDate animated:NO];
-}
-
 - (void)setSelectedDate:(NSDate *)selectedDate animated:(BOOL)animated
 {
-  _selectedDate = selectedDate;
+  if (! [self date:selectedDate matchesDateComponentsOfDate:_selectedDate]) {
+    _selectedDate = selectedDate;
+
+    [UIView animateWithDuration:animated ? 0.25f : 0
+                     animations:
+     ^{
+       [self rebuildWeeks];
+     }];
+  }
 }
 
 #pragma mark - UIView
