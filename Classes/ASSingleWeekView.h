@@ -19,16 +19,11 @@
  */
 @property (nonatomic, strong) NSDate *startDate;
 
-/**
- The date that should be marked as selected
- */
-@property (nonatomic, strong) NSDate *selectedDate;
-
 @end
 
 @protocol ASSingleWeekViewDelegate <NSObject>
 
-- (void)singleWeekView:(ASSingleWeekView *)singleWeekView didSelectDate:(NSDate *)date;
+- (void)singleWeekView:(ASSingleWeekView *)singleWeekView didSelectDate:(NSDate *)date atFrame:(CGRect)frame;
 
 - (UIView *)singleWeekView:(ASSingleWeekView *)singleWeekView viewForDate:(NSDate *)date withFrame:(CGRect)frame;
 

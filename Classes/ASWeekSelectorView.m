@@ -16,6 +16,7 @@
 
 @property (nonatomic, weak) UIScrollView *scrollView;
 @property (nonatomic, strong) NSMutableArray *singleWeekViews;
+@property (nonatomic, weak) UIView *selectionView;
 
 @property (nonatomic, strong) NSDateFormatter *dayNameDateFormatter;
 @property (nonatomic, strong) NSDateFormatter *dayNumberDateFormatter;
@@ -99,6 +100,10 @@
       week2.frame = leftFrame;
       self.singleWeekViews[0] = week2;
       
+      // update selected date
+      self.selectedDate = [self dateByAddingDays:-7 toDate:self.selectedDate];
+      [self.delegate weekSelector:self selectedDate:self.selectedDate];
+      
     } else {
       // 1 and 2 move to the left
       week1.frame = leftFrame;
@@ -110,6 +115,10 @@
       week0.startDate = [self dateByAddingDays:7 toDate:week2.startDate];
       week0.frame = rightFrame;
       self.singleWeekViews[2] = week0;
+
+      // update selected date
+      self.selectedDate = [self dateByAddingDays:7 toDate:self.selectedDate];
+      [self.delegate weekSelector:self selectedDate:self.selectedDate];
     }
     
     // reset offset
@@ -126,6 +135,10 @@
 
 - (UIView *)singleWeekView:(ASSingleWeekView *)singleWeekView viewForDate:(NSDate *)date withFrame:(CGRect)frame
 {
+  if ([self date:date matchesDateComponentsOfDate:self.selectedDate]) {
+    self.selectionView.frame = frame;
+  }
+  
   UIView *wrapper = [[UIView alloc] initWithFrame:frame];
   CGFloat width = CGRectGetWidth(frame);
 
@@ -149,14 +162,10 @@
 }
 
 
-- (void)singleWeekView:(ASSingleWeekView *)singleWeekView didSelectDate:(NSDate *)date
+- (void)singleWeekView:(ASSingleWeekView *)singleWeekView didSelectDate:(NSDate *)date atFrame:(CGRect)frame
 {
   self.selectedDate = date;
-  for (ASSingleWeekView *aSingle in self.singleWeekViews) {
-    if (singleWeekView != aSingle) {
-      aSingle.selectedDate = nil;
-    }
-  }
+  self.selectionView.frame = frame;
   [self.delegate weekSelector:self selectedDate:date];
 }
 
@@ -241,6 +250,29 @@
   NSDateComponents *diff = [[NSDateComponents alloc] init];
   diff.day = days;
   return [self.gregorian dateByAddingComponents:diff toDate:date options:0];
+}
+
+- (BOOL)date:(NSDate *)date matchesDateComponentsOfDate:(NSDate *)otherDate
+{
+  NSUInteger unitFlags = NSCalendarUnitDay | NSCalendarUnitMonth | NSCalendarUnitYear;
+  
+  NSDateComponents *components = [self.gregorian components:unitFlags fromDate:date];
+  NSDateComponents *otherComponents = [self.gregorian components:unitFlags fromDate:otherDate];
+  return [components isEqual:otherComponents];
+}
+
+#pragma mark - Lazy accessors
+
+- (UIView *)selectionView
+{
+  if (! _selectionView) {
+    UIView *view = [[UIView alloc] initWithFrame:CGRectNull];
+    view.alpha = 0.2;
+    view.backgroundColor = [UIColor blackColor];
+    [self addSubview:view];
+    _selectionView = view;
+  }
+  return _selectionView;
 }
 
 @end

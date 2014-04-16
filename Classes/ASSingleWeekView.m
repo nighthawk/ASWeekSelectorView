@@ -46,8 +46,7 @@
   NSUInteger dayOffset = subview.tag;
   
   NSDate *date = [self dateByAddingDays:dayOffset toDate:self.startDate];
-  self.selectedDate = date;
-  [self.delegate singleWeekView:self didSelectDate:date];
+  [self.delegate singleWeekView:self didSelectDate:date atFrame:subview.frame];
 }
 
 #pragma mark - Private helpers
