@@ -19,6 +19,7 @@
 
 @property (nonatomic, strong) NSDateFormatter *dayNameDateFormatter;
 @property (nonatomic, strong) NSDateFormatter *dayNumberDateFormatter;
+@property (nonatomic, strong) NSCalendar *gregorian;
 
 @end
 
@@ -60,9 +61,56 @@
 
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView
 {
-  if (scrollView.contentOffset.y != 0) {
-    CGPoint offset = scrollView.contentOffset;
+  CGPoint offset = scrollView.contentOffset;
+  BOOL updatedOffset = NO;
+
+  // prevent horizontal scrolling
+  if (offset.y != 0) {
     offset.y = 0;
+    updatedOffset = YES;
+  }
+  
+  CGFloat width = CGRectGetWidth(scrollView.frame);
+  if (offset.x >= width * 2 || offset.x <= 0) {
+    // swap things around
+    ASSingleWeekView *week0 = self.singleWeekViews[0];
+    ASSingleWeekView *week1 = self.singleWeekViews[1];
+    ASSingleWeekView *week2 = self.singleWeekViews[2];
+    CGRect leftFrame    = week0.frame;
+    CGRect middleFrame  = week1.frame;
+    CGRect rightFrame   = week2.frame;
+    
+    if (offset.x <= 0) {
+      // 0 and 1 move right
+      week0.frame = middleFrame;
+      week1.frame = rightFrame;
+      self.singleWeekViews[1] = week0;
+      self.singleWeekViews[2] = week1;
+      
+      // 2 get's updated to -1
+      week2.startDate = [self dateByAddingDays:-7 toDate:week0.startDate];
+      week2.frame = leftFrame;
+      self.singleWeekViews[0] = week2;
+      
+    } else {
+      // 1 and 2 move to the left
+      week1.frame = leftFrame;
+      week2.frame = middleFrame;
+      self.singleWeekViews[0] = week1;
+      self.singleWeekViews[1] = week2;
+
+      // 0 get's updated to 3
+      week0.startDate = [self dateByAddingDays:7 toDate:week2.startDate];
+      week0.frame = rightFrame;
+      self.singleWeekViews[2] = week0;
+    }
+    
+    // reset offset
+    offset.x = width;
+    updatedOffset = YES;
+  }
+  
+  if (updatedOffset) {
     scrollView.contentOffset = offset;
   }
 }
@@ -96,6 +144,7 @@
 
 - (void)singleWeekView:(ASSingleWeekView *)singleWeekView didSelectDate:(NSDate *)date
 {
+  self.selectedDate = date;
   for (ASSingleWeekView *aSingle in self.singleWeekViews) {
     if (singleWeekView != aSingle) {
       aSingle.selectedDate = nil;
@@ -111,6 +160,7 @@
   self.singleWeekViews = [NSMutableArray arrayWithCapacity:WEEKS];
   self.selectedDate = [NSDate date];
   self.firstWeekday = 1; // sunday
+  self.gregorian = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
   
   CGFloat width = CGRectGetWidth(self.frame);
   CGFloat height = CGRectGetHeight(self.frame);
@@ -146,9 +196,7 @@
   }
   
   // determine where the start of the previews week was as that'll be our start date
-  NSCalendar *gregorian = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
-  NSDateComponents *component = [gregorian components:NSWeekdayCalendarUnit
-                                             fromDate:self.selectedDate];
+  NSDateComponents *component = [self.gregorian components:NSWeekdayCalendarUnit fromDate:self.selectedDate];
   NSInteger weekday = [component weekday];
   NSInteger daysToSubtract;
   if (weekday == self.firstWeekday) {
@@ -158,10 +206,10 @@
   } else {
     daysToSubtract = (weekday + 7) - self.firstWeekday;
   }
-  NSDateComponents *diffToStartOfPrevious = [[NSDateComponents alloc] init];
-  diffToStartOfPrevious.day = - (daysToSubtract + 7);
+  daysToSubtract += 7;
 
-  NSDate *date = [gregorian dateByAddingComponents:diffToStartOfPrevious toDate:self.selectedDate options:0];
+  NSDate *date = [self dateByAddingDays:- daysToSubtract toDate:self.selectedDate];
+
   CGFloat width = CGRectGetWidth(self.frame);
   CGFloat height = CGRectGetHeight(self.frame);
 
@@ -176,10 +224,15 @@
     [self.singleWeekViews addObject:singleView];
     
     // next week
-    NSDateComponents *diffToNext = [[NSDateComponents alloc] init];
-    diffToNext.day = 7;
-    date = [gregorian dateByAddingComponents:diffToNext toDate:date options:0];
+    date = [self dateByAddingDays:7 toDate:date];
   }
+}
+
+- (NSDate *)dateByAddingDays:(NSInteger)days toDate:(NSDate *)date
+{
+  NSDateComponents *diff = [[NSDateComponents alloc] init];
+  diff.day = days;
+  return [self.gregorian dateByAddingComponents:diff toDate:date options:0];
 }
 
 @end
