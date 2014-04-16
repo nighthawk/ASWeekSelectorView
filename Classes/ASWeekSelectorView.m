@@ -27,6 +27,13 @@
 
 #pragma mark - Public methods
 
+- (void)setFirstWeekday:(NSUInteger)firstWeekday
+{
+  _firstWeekday = firstWeekday;
+  
+  [self rebuildWeeks];
+}
+
 - (void)setSelectedDate:(NSDate *)selectedDate
 {
   [self setSelectedDate:selectedDate animated:NO];
@@ -127,7 +134,7 @@
   UILabel *nameLabel = [[UILabel alloc] initWithFrame:nameFrame];
   nameLabel.textAlignment = NSTextAlignmentCenter;
   nameLabel.font = [UIFont systemFontOfSize:12];
-  nameLabel.textColor = [UIColor blueColor];
+  nameLabel.textColor = [UIColor blackColor];
   nameLabel.text = [self.dayNameDateFormatter stringFromDate:date];
   [wrapper addSubview:nameLabel];
 
@@ -135,7 +142,7 @@
   UILabel *numberLabel = [[UILabel alloc] initWithFrame:numberFrame];
   numberLabel.textAlignment = NSTextAlignmentCenter;
   numberLabel.font = [UIFont systemFontOfSize:12];
-  numberLabel.textColor = [UIColor blueColor];
+  numberLabel.textColor = [UIColor blackColor];
   numberLabel.text = [self.dayNumberDateFormatter stringFromDate:date];
   [wrapper addSubview:numberLabel];
   return wrapper;

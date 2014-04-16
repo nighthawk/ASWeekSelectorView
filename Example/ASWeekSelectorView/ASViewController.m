@@ -17,7 +17,8 @@
 - (void)viewDidLoad
 {
   [super viewDidLoad];
-  
+
+  self.weekSelector.firstWeekday = 2; // monday
   self.weekSelector.selectedDate = [NSDate date];
   self.weekSelector.delegate = self;
   
