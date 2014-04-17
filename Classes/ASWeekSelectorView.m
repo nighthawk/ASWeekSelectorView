@@ -35,6 +35,12 @@
   [self rebuildWeeks];
 }
 
+- (void)setSelectedDate:(NSDate *)selectedDate
+{
+  [self setSelectedDate:selectedDate animated:NO];
+}
+
+
 - (void)setSelectedDate:(NSDate *)selectedDate animated:(BOOL)animated
 {
   if (! [self date:selectedDate matchesDateComponentsOfDate:_selectedDate]) {
@@ -104,7 +110,7 @@
       self.singleWeekViews[0] = week2;
       
       // update selected date
-      self.selectedDate = [self dateByAddingDays:-7 toDate:self.selectedDate];
+      _selectedDate = [self dateByAddingDays:-7 toDate:self.selectedDate];
       [self.delegate weekSelector:self selectedDate:self.selectedDate];
       
     } else {
@@ -120,7 +126,7 @@
       self.singleWeekViews[2] = week0;
 
       // update selected date
-      self.selectedDate = [self dateByAddingDays:7 toDate:self.selectedDate];
+      _selectedDate = [self dateByAddingDays:7 toDate:self.selectedDate];
       [self.delegate weekSelector:self selectedDate:self.selectedDate];
     }
     
@@ -150,7 +156,7 @@
   UILabel *nameLabel = [[UILabel alloc] initWithFrame:nameFrame];
   nameLabel.textAlignment = NSTextAlignmentCenter;
   nameLabel.font = [UIFont systemFontOfSize:12];
-  nameLabel.textColor = [UIColor blackColor];
+  nameLabel.textColor = self.textColor;
   nameLabel.text = [self.dayNameDateFormatter stringFromDate:date];
   [wrapper addSubview:nameLabel];
 
@@ -158,7 +164,7 @@
   UILabel *numberLabel = [[UILabel alloc] initWithFrame:numberFrame];
   numberLabel.textAlignment = NSTextAlignmentCenter;
   numberLabel.font = [UIFont systemFontOfSize:12];
-  numberLabel.textColor = [UIColor blackColor];
+  numberLabel.textColor = self.textColor;
   numberLabel.text = [self.dayNumberDateFormatter stringFromDate:date];
   [wrapper addSubview:numberLabel];
   return wrapper;
@@ -167,7 +173,7 @@
 
 - (void)singleWeekView:(ASSingleWeekView *)singleWeekView didSelectDate:(NSDate *)date atFrame:(CGRect)frame
 {
-  self.selectedDate = date;
+  _selectedDate = date;
   self.selectionView.frame = frame;
   [self.delegate weekSelector:self selectedDate:date];
 }
@@ -178,7 +184,6 @@
 {
   // this is using variables directly to not trigger setter methods
   _singleWeekViews = [NSMutableArray arrayWithCapacity:WEEKS];
-  _selectedDate = [NSDate date];
   _firstWeekday = 1; // sunday
   _gregorian = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
   
@@ -208,6 +213,10 @@
 
 - (void)rebuildWeeks
 {
+  if (! self.selectedDate) {
+    return;
+  }
+  
   if (self.singleWeekViews.count > 0) {
     for (UIView *view in self.singleWeekViews) {
       [view removeFromSuperview];
@@ -220,7 +229,7 @@
   NSInteger weekday = [component weekday];
   NSInteger daysToSubtract;
   if (weekday == self.firstWeekday) {
-    // nothing to do
+    daysToSubtract = 0;
   } else if (weekday > self.firstWeekday) {
     daysToSubtract = weekday - self.firstWeekday;
   } else {
@@ -270,10 +279,9 @@
 {
   if (! _selectionView) {
     UIView *view = [[UIView alloc] initWithFrame:CGRectNull];
-    view.alpha = 0.2;
-    view.backgroundColor = [UIColor blackColor];
+    view.backgroundColor = [UIColor lightGrayColor];
     view.userInteractionEnabled = NO;
-    [self addSubview:view];
+    [self insertSubview:view atIndex:0];
     _selectionView = view;
   }
   return _selectionView;

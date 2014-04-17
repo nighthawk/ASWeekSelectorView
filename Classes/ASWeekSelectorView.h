@@ -39,6 +39,11 @@
  */
 - (void)setSelectedDate:(NSDate *)selectedDate animated:(BOOL)animated;
 
+/**
+ The colour for all the labels
+ */
+@property (nonatomic, strong) UIColor *textColor;
+
 @end
 
 @protocol ASWeekSelectorViewDelegate <NSObject>
