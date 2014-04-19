@@ -266,6 +266,13 @@
 
 - (BOOL)date:(NSDate *)date matchesDateComponentsOfDate:(NSDate *)otherDate
 {
+  if (date == otherDate) {
+    return YES;
+  }
+  if (! date || ! otherDate) {
+    return NO;
+  }
+  
   NSUInteger unitFlags = NSCalendarUnitDay | NSCalendarUnitMonth | NSCalendarUnitYear;
   
   NSDateComponents *components = [self.gregorian components:unitFlags fromDate:date];
