@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		3A278F7219062FB9009DDB4D /* ASDaySelectionView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A278F7119062FB9009DDB4D /* ASDaySelectionView.m */; };
 		3AAC012D18FE027600EBD85D /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3AAC012C18FE027600EBD85D /* Foundation.framework */; };
 		3AAC012F18FE027700EBD85D /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3AAC012E18FE027700EBD85D /* CoreGraphics.framework */; };
 		3AAC013118FE027700EBD85D /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3AAC013018FE027700EBD85D /* UIKit.framework */; };
@@ -36,6 +37,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		3A278F7019062FB9009DDB4D /* ASDaySelectionView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ASDaySelectionView.h; path = ../Classes/ASDaySelectionView.h; sourceTree = "<group>"; };
+		3A278F7119062FB9009DDB4D /* ASDaySelectionView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ASDaySelectionView.m; path = ../Classes/ASDaySelectionView.m; sourceTree = "<group>"; };
 		3AAC012918FE027600EBD85D /* ASWeekSelectorView.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ASWeekSelectorView.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3AAC012C18FE027600EBD85D /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		3AAC012E18FE027700EBD85D /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -163,10 +166,12 @@
 		3AAC016118FE044000EBD85D /* ASWeekSelectorView */ = {
 			isa = PBXGroup;
 			children = (
-				3AAC016218FE04C800EBD85D /* ASWeekSelectorView.h */,
-				3AAC016318FE04C800EBD85D /* ASWeekSelectorView.m */,
 				3AAC016518FE0A0400EBD85D /* ASSingleWeekView.h */,
 				3AAC016618FE0A0400EBD85D /* ASSingleWeekView.m */,
+				3A278F7019062FB9009DDB4D /* ASDaySelectionView.h */,
+				3A278F7119062FB9009DDB4D /* ASDaySelectionView.m */,
+				3AAC016218FE04C800EBD85D /* ASWeekSelectorView.h */,
+				3AAC016318FE04C800EBD85D /* ASWeekSelectorView.m */,
 			);
 			name = ASWeekSelectorView;
 			sourceTree = "<group>";
@@ -271,6 +276,7 @@
 			files = (
 				3AAC013D18FE027700EBD85D /* ASAppDelegate.m in Sources */,
 				3AAC014318FE027700EBD85D /* ASViewController.m in Sources */,
+				3A278F7219062FB9009DDB4D /* ASDaySelectionView.m in Sources */,
 				3AAC013918FE027700EBD85D /* main.m in Sources */,
 				3AAC016418FE04C800EBD85D /* ASWeekSelectorView.m in Sources */,
 				3AAC016718FE0A0400EBD85D /* ASSingleWeekView.m in Sources */,

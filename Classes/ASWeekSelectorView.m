@@ -9,6 +9,7 @@
 #import "ASWeekSelectorView.h"
 
 #import "ASSingleWeekView.h"
+#import "ASDaySelectionView.h"
 
 #define WEEKS 3
 
@@ -16,11 +17,18 @@
 
 @property (nonatomic, weak) UIScrollView *scrollView;
 @property (nonatomic, strong) NSMutableArray *singleWeekViews;
-@property (nonatomic, weak) UIView *selectionView;
+@property (nonatomic, weak) ASDaySelectionView *selectionView;
+@property (nonatomic, weak) UIView *lineView;
 
 @property (nonatomic, strong) NSDateFormatter *dayNameDateFormatter;
 @property (nonatomic, strong) NSDateFormatter *dayNumberDateFormatter;
 @property (nonatomic, strong) NSCalendar *gregorian;
+
+// formatting
+@property (nonatomic, strong) UIColor *selectorBackgroundColor;
+@property (nonatomic, strong) UIColor *lineColor;
+@property (nonatomic, strong) UIColor *numberTextColor;
+@property (nonatomic, strong) UIColor *letterTextColor;
 
 @end
 
@@ -151,22 +159,28 @@
   UIView *wrapper = [[UIView alloc] initWithFrame:frame];
   CGFloat width = CGRectGetWidth(frame);
 
-  CGFloat nameHeight = 15;
-  CGRect nameFrame = CGRectMake(0, 0, width, nameHeight);
-  UILabel *nameLabel = [[UILabel alloc] initWithFrame:nameFrame];
-  nameLabel.textAlignment = NSTextAlignmentCenter;
-  nameLabel.font = [UIFont systemFontOfSize:12];
-  nameLabel.textColor = self.textColor;
-  nameLabel.text = [self.dayNameDateFormatter stringFromDate:date];
-  [wrapper addSubview:nameLabel];
+  CGFloat nameHeight = 20;
+  CGFloat topPadding = 10;
+  CGRect nameFrame = CGRectMake(0, topPadding, width, nameHeight - topPadding);
+  UILabel *letterLabel = [[UILabel alloc] initWithFrame:nameFrame];
+  letterLabel.textAlignment = NSTextAlignmentCenter;
+  letterLabel.font = [UIFont systemFontOfSize:9];
+  letterLabel.textColor = self.letterTextColor;
+  letterLabel.text = [[self.dayNameDateFormatter stringFromDate:date] uppercaseString];
+  [wrapper addSubview:letterLabel];
 
   CGRect numberFrame = CGRectMake(0, nameHeight, width, CGRectGetHeight(frame) - nameHeight);
   UILabel *numberLabel = [[UILabel alloc] initWithFrame:numberFrame];
   numberLabel.textAlignment = NSTextAlignmentCenter;
-  numberLabel.font = [UIFont systemFontOfSize:12];
-  numberLabel.textColor = self.textColor;
+  numberLabel.font = [UIFont systemFontOfSize:18];
+  numberLabel.textColor = self.numberTextColor;
   numberLabel.text = [self.dayNumberDateFormatter stringFromDate:date];
   [wrapper addSubview:numberLabel];
+  
+  UIView *lineView = [[UIView alloc] initWithFrame:CGRectMake(CGRectGetMaxX(frame) - 1, 0, 1, CGRectGetHeight(frame))];
+  lineView.backgroundColor = self.lineColor;
+  [wrapper addSubview:lineView];
+  
   return wrapper;
 }
 
@@ -174,7 +188,13 @@
 - (void)singleWeekView:(ASSingleWeekView *)singleWeekView didSelectDate:(NSDate *)date atFrame:(CGRect)frame
 {
   _selectedDate = date;
-  self.selectionView.frame = frame;
+  
+  [UIView animateWithDuration:0.25f
+                   animations:
+   ^{
+     self.selectionView.frame = frame;
+   }];
+  
   [self.delegate weekSelector:self selectedDate:date];
 }
 
@@ -182,6 +202,12 @@
 
 - (void)didInit
 {
+  // default styles
+  _letterTextColor = [UIColor colorWithWhite:204.f/255 alpha:1];
+  _numberTextColor = [UIColor colorWithWhite:77.f/255 alpha:1];
+  _lineColor = [UIColor colorWithWhite:245.f/255 alpha:1];
+  _selectorBackgroundColor = [UIColor whiteColor];
+  
   // this is using variables directly to not trigger setter methods
   _singleWeekViews = [NSMutableArray arrayWithCapacity:WEEKS];
   _firstWeekday = 1; // sunday
@@ -189,7 +215,8 @@
   
   CGFloat width = CGRectGetWidth(self.frame);
   CGFloat height = CGRectGetHeight(self.frame);
-  UIScrollView *scrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 0, width, height)];
+  CGRect scrollViewFrame = CGRectMake(0, 0, width, height - 1);
+  UIScrollView *scrollView = [[UIScrollView alloc] initWithFrame:scrollViewFrame];
   scrollView.contentSize = CGSizeMake(WEEKS * width, height);
   scrollView.contentOffset = CGPointMake(width, 0);
   scrollView.pagingEnabled = YES;
@@ -197,6 +224,11 @@
   scrollView.showsVerticalScrollIndicator = NO;
   [self addSubview:scrollView];
   self.scrollView = scrollView;
+  
+  UIView *lineView = [[UIView alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(scrollViewFrame), width, 1)];
+  lineView.backgroundColor = self.lineColor;
+  [self insertSubview:lineView atIndex:0];
+  self.lineView = lineView;
 
   NSLocale *locale = [NSLocale systemLocale];
   self.dayNumberDateFormatter = [[NSDateFormatter alloc] init];
@@ -282,13 +314,18 @@
 
 #pragma mark - Lazy accessors
 
-- (UIView *)selectionView
+- (ASDaySelectionView *)selectionView
 {
   if (! _selectionView) {
-    UIView *view = [[UIView alloc] initWithFrame:CGRectNull];
-    view.backgroundColor = [UIColor lightGrayColor];
+    CGFloat width = CGRectGetWidth(self.frame) / 7;
+    CGFloat height = CGRectGetHeight(self.frame);
+    
+    ASDaySelectionView *view = [[ASDaySelectionView alloc] initWithFrame:CGRectMake(0, 0, width, height)];
+    view.backgroundColor = self.selectorBackgroundColor;
+    view.circleCenter = CGPointMake(width / 2, 20 + (height - 20) / 2);
+    view.circleColor = self.tintColor;
     view.userInteractionEnabled = NO;
-    [self insertSubview:view atIndex:0];
+    [self insertSubview:view aboveSubview:self.lineView];
     _selectionView = view;
   }
   return _selectionView;
