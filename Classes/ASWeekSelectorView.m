@@ -18,6 +18,7 @@
 @property (nonatomic, weak) UIScrollView *scrollView;
 @property (nonatomic, strong) NSMutableArray *singleWeekViews;
 @property (nonatomic, weak) ASDaySelectionView *selectionView;
+@property (nonatomic, weak) UILabel *selectionLabel;
 @property (nonatomic, weak) UIView *lineView;
 
 @property (nonatomic, strong) NSDateFormatter *dayNameDateFormatter;
@@ -25,6 +26,7 @@
 @property (nonatomic, strong) NSCalendar *gregorian;
 
 // formatting
+@property (nonatomic, strong) UIColor *selectorLetterTextColor;
 @property (nonatomic, strong) UIColor *selectorBackgroundColor;
 @property (nonatomic, strong) UIColor *lineColor;
 @property (nonatomic, strong) UIColor *numberTextColor;
@@ -84,8 +86,17 @@
 
 #pragma mark - UIScrollViewDelegate
 
+- (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView
+{
+  self.selectionLabel.alpha = 1;
+}
+
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView
 {
+  if (scrollView.isTracking) {
+    self.selectionLabel.alpha = 0;
+  }
+  
   CGPoint offset = scrollView.contentOffset;
   BOOL updatedOffset = NO;
 
@@ -118,8 +129,7 @@
       self.singleWeekViews[0] = week2;
       
       // update selected date
-      _selectedDate = [self dateByAddingDays:-7 toDate:self.selectedDate];
-      [self.delegate weekSelector:self selectedDate:self.selectedDate];
+      [self userSelectedDate:[self dateByAddingDays:-7 toDate:self.selectedDate]];
       
     } else {
       // 1 and 2 move to the left
@@ -134,8 +144,7 @@
       self.singleWeekViews[2] = week0;
 
       // update selected date
-      _selectedDate = [self dateByAddingDays:7 toDate:self.selectedDate];
-      [self.delegate weekSelector:self selectedDate:self.selectedDate];
+      [self userSelectedDate:[self dateByAddingDays:7 toDate:self.selectedDate]];
     }
     
     // reset offset
@@ -152,7 +161,8 @@
 
 - (UIView *)singleWeekView:(ASSingleWeekView *)singleWeekView viewForDate:(NSDate *)date withFrame:(CGRect)frame
 {
-  if ([self date:date matchesDateComponentsOfDate:self.selectedDate]) {
+  BOOL isSelection = [self date:date matchesDateComponentsOfDate:self.selectedDate];
+  if (isSelection) {
     self.selectionView.frame = frame;
   }
   
@@ -175,6 +185,12 @@
   numberLabel.font = [UIFont systemFontOfSize:18];
   numberLabel.textColor = self.numberTextColor;
   numberLabel.text = [self.dayNumberDateFormatter stringFromDate:date];
+  if (isSelection) {
+    CGRect selectionLabelFrame = numberFrame;
+    selectionLabelFrame.origin.x = frame.origin.x;
+    self.selectionLabel.frame = selectionLabelFrame;
+    self.selectionLabel.text = numberLabel.text;
+  }
   [wrapper addSubview:numberLabel];
   
   UIView *lineView = [[UIView alloc] initWithFrame:CGRectMake(CGRectGetMaxX(frame) - 1, 0, 1, CGRectGetHeight(frame))];
@@ -184,18 +200,23 @@
   return wrapper;
 }
 
-
 - (void)singleWeekView:(ASSingleWeekView *)singleWeekView didSelectDate:(NSDate *)date atFrame:(CGRect)frame
 {
-  _selectedDate = date;
+  self.selectionLabel.alpha = 0;
+  CGRect selectionLabelFrame = self.selectionLabel.frame;
+  selectionLabelFrame.origin.x = frame.origin.x;
+  self.selectionLabel.frame = selectionLabelFrame;
+
   
   [UIView animateWithDuration:0.25f
                    animations:
    ^{
      self.selectionView.frame = frame;
+   }
+                   completion:
+   ^(BOOL finished) {
+     [self userSelectedDate:date];
    }];
-  
-  [self.delegate weekSelector:self selectedDate:date];
 }
 
 #pragma mark - Private helpers
@@ -207,6 +228,7 @@
   _numberTextColor = [UIColor colorWithWhite:77.f/255 alpha:1];
   _lineColor = [UIColor colorWithWhite:245.f/255 alpha:1];
   _selectorBackgroundColor = [UIColor whiteColor];
+  _selectorLetterTextColor = [UIColor whiteColor];
   
   // this is using variables directly to not trigger setter methods
   _singleWeekViews = [NSMutableArray arrayWithCapacity:WEEKS];
@@ -312,6 +334,16 @@
   return [components isEqual:otherComponents];
 }
 
+- (void)userSelectedDate:(NSDate *)date
+{
+  _selectedDate = date;
+  
+  self.selectionLabel.alpha = 1;
+  self.selectionLabel.text = [self.dayNumberDateFormatter stringFromDate:date];
+  
+  [self.delegate weekSelector:self selectedDate:self.selectedDate];
+}
+
 #pragma mark - Lazy accessors
 
 - (ASDaySelectionView *)selectionView
@@ -329,6 +361,19 @@
     _selectionView = view;
   }
   return _selectionView;
+}
+
+- (UILabel *)selectionLabel
+{
+  if (! _selectionLabel) {
+    UILabel *numberLabel = [[UILabel alloc] initWithFrame:CGRectNull];
+    numberLabel.textAlignment = NSTextAlignmentCenter;
+    numberLabel.font = [UIFont systemFontOfSize:18];
+    numberLabel.textColor = self.selectorLetterTextColor;
+    [self insertSubview:numberLabel aboveSubview:self.scrollView];
+    _selectionLabel = numberLabel;
+  }
+  return _selectionLabel;
 }
 
 @end
