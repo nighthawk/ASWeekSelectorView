@@ -21,6 +21,10 @@
 @property (nonatomic, weak) UILabel *selectionLabel;
 @property (nonatomic, weak) UIView *lineView;
 
+// for animating the selection view
+@property (nonatomic, assign) CGFloat preDragSelectionX;
+@property (nonatomic, assign) CGFloat preDragOffsetX;
+
 @property (nonatomic, strong) NSDateFormatter *dayNameDateFormatter;
 @property (nonatomic, strong) NSDateFormatter *dayNumberDateFormatter;
 @property (nonatomic, strong) NSCalendar *gregorian;
@@ -86,20 +90,32 @@
 
 #pragma mark - UIScrollViewDelegate
 
-- (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView
+- (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView
 {
-  self.selectionLabel.alpha = 1;
+  if (self.preDragOffsetX == MAXFLOAT) {
+    self.preDragOffsetX = scrollView.contentOffset.x;
+    self.preDragSelectionX = CGRectGetMinX(self.selectionLabel.frame);
+  }
 }
 
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView
 {
-  if (scrollView.isTracking) {
-    self.selectionLabel.alpha = 0;
-  }
-  
   CGPoint offset = scrollView.contentOffset;
   BOOL updatedOffset = NO;
+  
+  // place the selection views
+  if (self.preDragOffsetX < MAXFLOAT) {
+    CGFloat selectionX = self.preDragSelectionX - (offset.x - self.preDragOffsetX);
+    
+    CGRect selectionViewFrame = self.selectionView.frame;
+    selectionViewFrame.origin.x = selectionX;
+    self.selectionView.frame = selectionViewFrame;
 
+    CGRect selectionLabelFrame = self.selectionLabel.frame;
+    selectionLabelFrame.origin.x = selectionX;
+    self.selectionLabel.frame = selectionLabelFrame;
+  }
+  
   // prevent horizontal scrolling
   if (offset.y != 0) {
     offset.y = 0;
@@ -202,7 +218,7 @@
 
 - (void)singleWeekView:(ASSingleWeekView *)singleWeekView didSelectDate:(NSDate *)date atFrame:(CGRect)frame
 {
-  self.selectionLabel.alpha = 0;
+  self.selectionLabel.alpha = 0; // looks weird otherwise
   CGRect selectionLabelFrame = self.selectionLabel.frame;
   selectionLabelFrame.origin.x = frame.origin.x;
   self.selectionLabel.frame = selectionLabelFrame;
@@ -229,6 +245,8 @@
   _lineColor = [UIColor colorWithWhite:245.f/255 alpha:1];
   _selectorBackgroundColor = [UIColor whiteColor];
   _selectorLetterTextColor = [UIColor whiteColor];
+  _preDragOffsetX = MAXFLOAT;
+  _preDragSelectionX = MAXFLOAT;
   
   // this is using variables directly to not trigger setter methods
   _singleWeekViews = [NSMutableArray arrayWithCapacity:WEEKS];
@@ -338,10 +356,38 @@
 {
   _selectedDate = date;
   
-  self.selectionLabel.alpha = 1;
   self.selectionLabel.text = [self.dayNumberDateFormatter stringFromDate:date];
+  [self animateSelectionToPreDrag];
   
   [self.delegate weekSelector:self selectedDate:self.selectedDate];
+}
+
+- (void)animateSelectionToPreDrag
+{
+  if (self.preDragOffsetX < MAXFLOAT) {
+    self.selectionLabel.alpha = 0;
+    
+    CGFloat selectionX = self.preDragSelectionX;
+    
+    CGRect selectionViewFrame = self.selectionView.frame;
+    selectionViewFrame.origin.x = selectionX;
+    
+    CGRect selectionLabelFrame = self.selectionLabel.frame;
+    selectionLabelFrame.origin.x = selectionX;
+    
+    [UIView animateWithDuration:0.25f
+                     animations:
+     ^{
+       self.selectionView.frame = selectionViewFrame;
+       self.selectionLabel.frame = selectionLabelFrame;
+     } completion:^(BOOL finished) {
+       self.selectionLabel.alpha = 1;
+     }];
+    
+    self.preDragOffsetX = MAXFLOAT;
+  } else {
+    self.selectionLabel.alpha = 1;
+  }
 }
 
 #pragma mark - Lazy accessors
