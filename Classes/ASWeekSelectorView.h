@@ -29,6 +29,16 @@
 @property (nonatomic, assign) NSUInteger firstWeekday;
 
 /**
+ Text color of the big numbers
+ */
+@property (nonatomic, strong) UIColor *numberTextColor;
+
+/**
+ Text color of the small letter labels
+ */
+@property (nonatomic, strong) UIColor *letterTextColor;
+
+/**
  The selected date which is highlighted in the view. When setting this property, the view will also jump to show that date.
  */
 @property (nonatomic, strong) NSDate *selectedDate;

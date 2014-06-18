@@ -33,8 +33,6 @@
 @property (nonatomic, strong) UIColor *selectorLetterTextColor;
 @property (nonatomic, strong) UIColor *selectorBackgroundColor;
 @property (nonatomic, strong) UIColor *lineColor;
-@property (nonatomic, strong) UIColor *numberTextColor;
-@property (nonatomic, strong) UIColor *letterTextColor;
 
 @end
 
