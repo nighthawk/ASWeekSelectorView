@@ -66,6 +66,12 @@
   }
 }
 
+- (void)setLocale:(NSLocale *)locale
+{
+  _locale = locale;
+  [self updateDateFormatters];
+}
+
 #pragma mark - UIView
 
 - (id)initWithFrame:(CGRect)frame
@@ -245,6 +251,7 @@
   _selectorLetterTextColor = [UIColor whiteColor];
   _preDragOffsetX = MAXFLOAT;
   _preDragSelectionX = MAXFLOAT;
+  _locale = [NSLocale autoupdatingCurrentLocale];
   
   // this is using variables directly to not trigger setter methods
   _singleWeekViews = [NSMutableArray arrayWithCapacity:WEEKS];
@@ -268,16 +275,21 @@
   [self insertSubview:lineView atIndex:0];
   self.lineView = lineView;
 
-  NSLocale *locale = [NSLocale systemLocale];
+  [self updateDateFormatters];
+}
+
+- (void)updateDateFormatters
+{
   self.dayNumberDateFormatter = [[NSDateFormatter alloc] init];
+  self.dayNumberDateFormatter.locale = self.locale;
   self.dayNumberDateFormatter.dateFormat = [NSDateFormatter dateFormatFromTemplate:@"d"
                                                                            options:0
-                                                                            locale:locale];
+                                                                            locale:self.locale];
   self.dayNameDateFormatter = [[NSDateFormatter alloc] init];
+  self.dayNameDateFormatter.locale = self.locale;
   self.dayNameDateFormatter.dateFormat = [NSDateFormatter dateFormatFromTemplate:@"E"
                                                                          options:0
-                                                                          locale:locale];
-  
+                                                                          locale:self.locale];
   [self rebuildWeeks];
 }
 

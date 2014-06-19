@@ -39,6 +39,13 @@
 @property (nonatomic, strong) UIColor *letterTextColor;
 
 /**
+ Locale used for formatting dates
+ @default `autoupdatingCurrentLocale`
+ */
+@property (nonatomic, strong) NSLocale *locale;
+
+
+/**
  The selected date which is highlighted in the view. When setting this property, the view will also jump to show that date.
  */
 @property (nonatomic, strong) NSDate *selectedDate;
