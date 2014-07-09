@@ -18,7 +18,7 @@
 @property (nonatomic, weak) UIScrollView *scrollView;
 @property (nonatomic, strong) NSMutableArray *singleWeekViews;
 @property (nonatomic, weak) ASDaySelectionView *selectionView;
-@property (nonatomic, weak) UILabel *selectionLabel;
+@property (nonatomic, strong) ASDaySelectionView *todayView;
 @property (nonatomic, weak) UIView *lineView;
 
 // for animating the selection view
@@ -28,6 +28,8 @@
 @property (nonatomic, strong) NSDateFormatter *dayNameDateFormatter;
 @property (nonatomic, strong) NSDateFormatter *dayNumberDateFormatter;
 @property (nonatomic, strong) NSCalendar *gregorian;
+
+@property (nonatomic, assign) BOOL isAnimating;
 
 // formatting
 @property (nonatomic, strong) UIColor *selectorLetterTextColor;
@@ -56,12 +58,19 @@
 - (void)setSelectedDate:(NSDate *)selectedDate animated:(BOOL)animated
 {
   if (! [self date:selectedDate matchesDateComponentsOfDate:_selectedDate]) {
+    [self colorLabelForDate:_selectedDate withTextColor:self.numberTextColor];
     _selectedDate = selectedDate;
-
+    self.isAnimating = animated;
+    
     [UIView animateWithDuration:animated ? 0.25f : 0
                      animations:
      ^{
        [self rebuildWeeks];
+     }
+                     completion:
+     ^(BOOL finished) {
+       self.isAnimating = NO;
+       [self colorLabelForDate:_selectedDate withTextColor:self.selectorLetterTextColor];
      }];
   }
 }
@@ -98,7 +107,7 @@
 {
   if (self.preDragOffsetX == MAXFLOAT) {
     self.preDragOffsetX = scrollView.contentOffset.x;
-    self.preDragSelectionX = CGRectGetMinX(self.selectionLabel.frame);
+    self.preDragSelectionX = CGRectGetMinX(self.selectionView.frame);
   }
 }
 
@@ -114,10 +123,6 @@
     CGRect selectionViewFrame = self.selectionView.frame;
     selectionViewFrame.origin.x = selectionX;
     self.selectionView.frame = selectionViewFrame;
-
-    CGRect selectionLabelFrame = self.selectionLabel.frame;
-    selectionLabelFrame.origin.x = selectionX;
-    self.selectionLabel.frame = selectionLabelFrame;
   }
   
   // prevent horizontal scrolling
@@ -186,6 +191,12 @@
     self.selectionView.frame = frame;
   }
   
+  BOOL isToday = [self date:date matchesDateComponentsOfDate:[NSDate date]];
+  if (isToday) {
+    self.todayView.frame = frame;
+    [singleWeekView insertSubview:self.todayView atIndex:0];
+  }
+  
   UIView *wrapper = [[UIView alloc] initWithFrame:frame];
   CGFloat width = CGRectGetWidth(frame);
 
@@ -199,18 +210,14 @@
   letterLabel.text = [[self.dayNameDateFormatter stringFromDate:date] uppercaseString];
   [wrapper addSubview:letterLabel];
 
+  NSString *dayNumberText = [self.dayNumberDateFormatter stringFromDate:date];
   CGRect numberFrame = CGRectMake(0, nameHeight, width, CGRectGetHeight(frame) - nameHeight);
   UILabel *numberLabel = [[UILabel alloc] initWithFrame:numberFrame];
   numberLabel.textAlignment = NSTextAlignmentCenter;
   numberLabel.font = [UIFont systemFontOfSize:18];
-  numberLabel.textColor = self.numberTextColor;
-  numberLabel.text = [self.dayNumberDateFormatter stringFromDate:date];
-  if (isSelection) {
-    CGRect selectionLabelFrame = numberFrame;
-    selectionLabelFrame.origin.x = frame.origin.x;
-    self.selectionLabel.frame = selectionLabelFrame;
-    self.selectionLabel.text = numberLabel.text;
-  }
+  numberLabel.textColor = (isSelection && ! self.isAnimating) ? self.selectorLetterTextColor : self.numberTextColor;
+  numberLabel.text = dayNumberText;
+  numberLabel.tag = 100 + [dayNumberText integerValue];
   [wrapper addSubview:numberLabel];
   
   UIView *lineView = [[UIView alloc] initWithFrame:CGRectMake(CGRectGetMaxX(frame) - 1, 0, 1, CGRectGetHeight(frame))];
@@ -222,12 +229,8 @@
 
 - (void)singleWeekView:(ASSingleWeekView *)singleWeekView didSelectDate:(NSDate *)date atFrame:(CGRect)frame
 {
-  self.selectionLabel.alpha = 0; // looks weird otherwise
-  CGRect selectionLabelFrame = self.selectionLabel.frame;
-  selectionLabelFrame.origin.x = frame.origin.x;
-  self.selectionLabel.frame = selectionLabelFrame;
+  [self colorLabelForDate:_selectedDate withTextColor:self.numberTextColor];
 
-  
   [UIView animateWithDuration:0.25f
                    animations:
    ^{
@@ -364,9 +367,9 @@
 
 - (void)userSelectedDate:(NSDate *)date
 {
+  [self colorLabelForDate:_selectedDate withTextColor:self.numberTextColor];
   _selectedDate = date;
-  
-  self.selectionLabel.text = [self.dayNumberDateFormatter stringFromDate:date];
+
   [self animateSelectionToPreDrag];
   
   [self.delegate weekSelector:self selectedDate:self.selectedDate];
@@ -375,28 +378,36 @@
 - (void)animateSelectionToPreDrag
 {
   if (self.preDragOffsetX < MAXFLOAT) {
-    self.selectionLabel.alpha = 0;
-    
     CGFloat selectionX = self.preDragSelectionX;
     
     CGRect selectionViewFrame = self.selectionView.frame;
     selectionViewFrame.origin.x = selectionX;
     
-    CGRect selectionLabelFrame = self.selectionLabel.frame;
-    selectionLabelFrame.origin.x = selectionX;
-    
     [UIView animateWithDuration:0.25f
                      animations:
      ^{
        self.selectionView.frame = selectionViewFrame;
-       self.selectionLabel.frame = selectionLabelFrame;
      } completion:^(BOOL finished) {
-       self.selectionLabel.alpha = 1;
+       [self colorLabelForDate:_selectedDate withTextColor:self.selectorLetterTextColor];
      }];
     
     self.preDragOffsetX = MAXFLOAT;
   } else {
-    self.selectionLabel.alpha = 1;
+    [self colorLabelForDate:_selectedDate withTextColor:self.selectorLetterTextColor];
+  }
+}
+
+- (void)colorLabelForDate:(NSDate *)date withTextColor:(UIColor *)textColor
+{
+  NSString *dayNumberText = [self.dayNumberDateFormatter stringFromDate:date];
+  NSInteger viewTag = 100 + [dayNumberText integerValue];
+  for (ASSingleWeekView *singleWeek in self.singleWeekViews) {
+    UIView *view = [singleWeek viewWithTag:viewTag];
+    if ([view isKindOfClass:[UILabel class]]) {
+      UILabel *label = (UILabel *)view;
+      label.textColor = textColor;
+      return;
+    }
   }
 }
 
@@ -410,6 +421,7 @@
     
     ASDaySelectionView *view = [[ASDaySelectionView alloc] initWithFrame:CGRectMake(0, 0, width, height)];
     view.backgroundColor = self.selectorBackgroundColor;
+    view.fillCircle = YES;
     view.circleCenter = CGPointMake(width / 2, 20 + (height - 20) / 2);
     view.circleColor = self.tintColor;
     view.userInteractionEnabled = NO;
@@ -419,17 +431,22 @@
   return _selectionView;
 }
 
-- (UILabel *)selectionLabel
+- (ASDaySelectionView *)todayView
 {
-  if (! _selectionLabel) {
-    UILabel *numberLabel = [[UILabel alloc] initWithFrame:CGRectNull];
-    numberLabel.textAlignment = NSTextAlignmentCenter;
-    numberLabel.font = [UIFont systemFontOfSize:18];
-    numberLabel.textColor = self.selectorLetterTextColor;
-    [self insertSubview:numberLabel aboveSubview:self.scrollView];
-    _selectionLabel = numberLabel;
+  if (! _todayView) {
+    CGFloat width = CGRectGetWidth(self.frame) / 7;
+    CGFloat height = CGRectGetHeight(self.frame);
+    
+    ASDaySelectionView *view = [[ASDaySelectionView alloc] initWithFrame:CGRectMake(0, 0, width, height)];
+    view.backgroundColor = [UIColor clearColor];
+    view.fillCircle = NO;
+    view.circleCenter = CGPointMake(width / 2, 20 + (height - 20) / 2);
+    view.circleColor = self.tintColor;
+    view.userInteractionEnabled = NO;
+    _todayView = view;
   }
-  return _selectionLabel;
+  return _todayView;
 }
+
 
 @end

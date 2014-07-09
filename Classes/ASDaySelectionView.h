@@ -12,5 +12,6 @@
 
 @property (nonatomic, assign) CGPoint circleCenter;
 @property (nonatomic, strong) UIColor *circleColor;
+@property (nonatomic, assign) BOOL fillCircle;
 
 @end

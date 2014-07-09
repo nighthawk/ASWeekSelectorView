@@ -18,8 +18,13 @@
 
   // Draw circle.
   CGRect circleRect = [self circleRect];
-  CGContextSetFillColorWithColor(context, self.circleColor.CGColor);
-  CGContextFillEllipseInRect(context, circleRect);
+  if (self.fillCircle) {
+    CGContextSetFillColorWithColor(context, self.circleColor.CGColor);
+    CGContextFillEllipseInRect(context, circleRect);
+  } else {
+    CGContextSetStrokeColorWithColor(context, self.circleColor.CGColor);
+    CGContextStrokeEllipseInRect(context, circleRect);
+  }
 }
 
 #pragma mark - Private helpers
