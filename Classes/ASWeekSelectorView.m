@@ -308,9 +308,7 @@
 {
   self.dayNumberDateFormatter = [[NSDateFormatter alloc] init];
   self.dayNumberDateFormatter.locale = self.locale;
-  self.dayNumberDateFormatter.dateFormat = [NSDateFormatter dateFormatFromTemplate:@"d"
-                                                                           options:0
-                                                                            locale:self.locale];
+  self.dayNumberDateFormatter.dateFormat = @"d"];
   self.dayNameDateFormatter = [[NSDateFormatter alloc] init];
   self.dayNameDateFormatter.locale = self.locale;
   self.dayNameDateFormatter.dateFormat = [NSDateFormatter dateFormatFromTemplate:@"E"
