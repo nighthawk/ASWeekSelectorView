@@ -68,4 +68,15 @@
  */
 - (void)weekSelector:(ASWeekSelectorView *)weekSelector selectedDate:(NSDate *)date;
 
+@optional
+
+/**
+ Called when the user did actively swipe to a new week.
+ 
+ @note `weekSelector:selectedDate:` will also be called right after this.
+ 
+ @param weekSelector The week selector that the user interacted with.
+ */
+- (void)weekSelectorDidSwipe:(ASWeekSelectorView *)weekSelector;
+
 @end

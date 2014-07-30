@@ -161,7 +161,9 @@
       week2.frame = leftFrame;
       self.singleWeekViews[0] = week2;
       
-      // update selected date
+      if ([self.delegate respondsToSelector:@selector(weekSelectorDidSwipe:)]) {
+        [self.delegate weekSelectorDidSwipe:self];
+      }
       [self userSelectedDate:[self dateByAddingDays:-7 toDate:self.selectedDate]];
       
     } else {
@@ -176,7 +178,9 @@
       week0.frame = rightFrame;
       self.singleWeekViews[2] = week0;
 
-      // update selected date
+      if ([self.delegate respondsToSelector:@selector(weekSelectorDidSwipe:)]) {
+        [self.delegate weekSelectorDidSwipe:self];
+      }
       [self userSelectedDate:[self dateByAddingDays:7 toDate:self.selectedDate]];
     }
     
