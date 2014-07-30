@@ -13,6 +13,13 @@
 
 #define WEEKS 3
 
+
+@interface ASContainerView : UIView
+@property (nonatomic, assign, getter = isAccessibilityElement) BOOL accessibilityElement;
+@end
+@implementation ASContainerView
+@end
+
 @interface ASWeekSelectorView () <ASSingleWeekViewDelegate, UIScrollViewDelegate>
 
 @property (nonatomic, weak) UIScrollView *scrollView;
@@ -27,6 +34,7 @@
 
 @property (nonatomic, strong) NSDateFormatter *dayNameDateFormatter;
 @property (nonatomic, strong) NSDateFormatter *dayNumberDateFormatter;
+@property (nonatomic, strong) NSDateFormatter *accessibilityDateFormatter;
 @property (nonatomic, strong) NSCalendar *gregorian;
 
 @property (nonatomic, assign) BOOL isAnimating;
@@ -182,6 +190,14 @@
   }
 }
 
+- (NSString *)accessibilityScrollStatusForScrollView:(UIScrollView *)scrollView
+{
+  NSString *format = NSLocalizedStringFromTable(@"Week of %@", @"ASWeekSelectorView", @"Accessibility description when paging through weeks. Supplied %@ is string for the start date.");
+  NSDate *startDate = [self.singleWeekViews[1] startDate];
+  return [NSString stringWithFormat:format, [self.accessibilityDateFormatter stringFromDate:startDate]];
+}
+
+
 #pragma mark - ASSingleWeekViewDelegate
 
 - (UIView *)singleWeekView:(ASSingleWeekView *)singleWeekView viewForDate:(NSDate *)date withFrame:(CGRect)frame
@@ -197,7 +213,7 @@
     [singleWeekView insertSubview:self.todayView atIndex:0];
   }
   
-  UIView *wrapper = [[UIView alloc] initWithFrame:frame];
+  ASContainerView *wrapper = [[ASContainerView alloc] initWithFrame:frame];
   CGFloat width = CGRectGetWidth(frame);
 
   CGFloat nameHeight = 20;
@@ -224,6 +240,9 @@
   lineView.backgroundColor = self.lineColor;
   [wrapper addSubview:lineView];
   
+  wrapper.accessibilityElement = YES;
+  wrapper.accessibilityLabel = [self.accessibilityDateFormatter stringFromDate:date];
+  wrapper.accessibilityTraits = isSelection ? (UIAccessibilityTraitButton | UIAccessibilityTraitSelected) : UIAccessibilityTraitButton;
   return wrapper;
 }
 
@@ -293,6 +312,11 @@
   self.dayNameDateFormatter.dateFormat = [NSDateFormatter dateFormatFromTemplate:@"E"
                                                                          options:0
                                                                           locale:self.locale];
+  
+  self.accessibilityDateFormatter = [[NSDateFormatter alloc] init];
+  self.accessibilityDateFormatter.locale = self.locale;
+  self.accessibilityDateFormatter.dateStyle = NSDateFormatterFullStyle;
+  self.accessibilityDateFormatter.timeStyle = NSDateFormatterNoStyle;
   [self rebuildWeeks];
 }
 
@@ -447,6 +471,5 @@
   }
   return _todayView;
 }
-
 
 @end
