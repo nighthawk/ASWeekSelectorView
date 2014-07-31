@@ -31,13 +31,13 @@
 // for animating the selection view
 @property (nonatomic, assign) CGFloat preDragSelectionX;
 @property (nonatomic, assign) CGFloat preDragOffsetX;
+@property (nonatomic, assign) BOOL isAnimating;
 
 @property (nonatomic, strong) NSDateFormatter *dayNameDateFormatter;
 @property (nonatomic, strong) NSDateFormatter *dayNumberDateFormatter;
 @property (nonatomic, strong) NSDateFormatter *accessibilityDateFormatter;
 @property (nonatomic, strong) NSCalendar *gregorian;
-
-@property (nonatomic, assign) BOOL isAnimating;
+@property (nonatomic, strong) NSDate *lastToday; // to check when we need to update our 'today' time stamp
 
 // formatting
 @property (nonatomic, strong) UIColor *selectorLetterTextColor;
@@ -62,9 +62,12 @@
   [self setSelectedDate:selectedDate animated:NO];
 }
 
-
 - (void)setSelectedDate:(NSDate *)selectedDate animated:(BOOL)animated
 {
+  if (!self.lastToday || [self date:self.lastToday matchesDateComponentsOfDate:[NSDate date]]) {
+    [self rebuildWeeks];
+  }
+  
   if (! [self date:selectedDate matchesDateComponentsOfDate:_selectedDate]) {
     [self colorLabelForDate:_selectedDate withTextColor:self.numberTextColor];
     _selectedDate = selectedDate;
@@ -211,10 +214,12 @@
     self.selectionView.frame = frame;
   }
   
-  BOOL isToday = [self date:date matchesDateComponentsOfDate:[NSDate date]];
+  NSDate *today = [NSDate date];
+  BOOL isToday = [self date:date matchesDateComponentsOfDate:today];
   if (isToday) {
     self.todayView.frame = frame;
     [singleWeekView insertSubview:self.todayView atIndex:0];
+    self.lastToday = today;
   }
   
   ASContainerView *wrapper = [[ASContainerView alloc] initWithFrame:frame];
