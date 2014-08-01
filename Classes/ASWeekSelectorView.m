@@ -64,7 +64,7 @@
 
 - (void)setSelectedDate:(NSDate *)selectedDate animated:(BOOL)animated
 {
-  if (!self.lastToday || [self date:self.lastToday matchesDateComponentsOfDate:[NSDate date]]) {
+  if (!self.lastToday || ![self date:self.lastToday matchesDateComponentsOfDate:[NSDate date]]) {
     [self rebuildWeeks];
   }
   
