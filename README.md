@@ -13,7 +13,7 @@ It's using the methodology described in Apple's excellent WWDC 2011 session 104 
 
 1) Add to your Podfile:
 
-        pod 'ASWeekSelectorView', '~> 0.1.0'
+        pod 'ASWeekSelectorView', '~> 0.3.0'
 
 2) Add an instance of `ASWeekSelectorView` to your view hierarchy, configure it, provide a delegate and implement the delegate method. (Note that you won't need to use `ASSingleWeekView` yourself - it's just a helper class.)
 

@@ -60,15 +60,24 @@
 
 @protocol ASWeekSelectorViewDelegate <NSObject>
 
+@optional
+
 /**
- Called on the delegate whenever the user interacts with the view and selects a new date.
+ Called on the delegate whenever the user interacts with the view and selects a new date. Called immediately after selection commenced.
  
  @param weekSelector The week selector that the user interacted with.
  @param date         The selected date.
  */
-- (void)weekSelector:(ASWeekSelectorView *)weekSelector selectedDate:(NSDate *)date;
+- (void)weekSelector:(ASWeekSelectorView *)weekSelector willSelectDate:(NSDate *)date;
 
-@optional
+/**
+ Called on the delegate whenever the user interacts with the view and selects a new date. Called after any animations are completed.
+ 
+ @param weekSelector The week selector that the user interacted with.
+ @param date         The selected date.
+ */
+- (void)weekSelector:(ASWeekSelectorView *)weekSelector didSelectDate:(NSDate *)date;
+
 
 /**
  Called when the user did actively swipe to a new week.

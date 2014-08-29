@@ -167,7 +167,9 @@
       if ([self.delegate respondsToSelector:@selector(weekSelectorDidSwipe:)]) {
         [self.delegate weekSelectorDidSwipe:self];
       }
-      [self userSelectedDate:[self dateByAddingDays:-7 toDate:self.selectedDate]];
+      NSDate *date = [self dateByAddingDays:-7 toDate:self.selectedDate];
+      [self userWillSelectDate:date];
+      [self userDidSelectDate:date];
       
     } else {
       // 1 and 2 move to the left
@@ -184,7 +186,9 @@
       if ([self.delegate respondsToSelector:@selector(weekSelectorDidSwipe:)]) {
         [self.delegate weekSelectorDidSwipe:self];
       }
-      [self userSelectedDate:[self dateByAddingDays:7 toDate:self.selectedDate]];
+      NSDate *date = [self dateByAddingDays:7 toDate:self.selectedDate];
+      [self userWillSelectDate:date];
+      [self userDidSelectDate:date];
     }
     
     // reset offset
@@ -257,6 +261,7 @@
 
 - (void)singleWeekView:(ASSingleWeekView *)singleWeekView didSelectDate:(NSDate *)date atFrame:(CGRect)frame
 {
+  [self userWillSelectDate:date];
   [self colorLabelForDate:_selectedDate withTextColor:self.numberTextColor];
 
   [UIView animateWithDuration:0.25f
@@ -266,7 +271,7 @@
    }
                    completion:
    ^(BOOL finished) {
-     [self userSelectedDate:date];
+     [self userDidSelectDate:date];
    }];
 }
 
@@ -396,14 +401,24 @@
   return [components isEqual:otherComponents];
 }
 
-- (void)userSelectedDate:(NSDate *)date
+- (void)userWillSelectDate:(NSDate *)date
+{
+  if ([self.delegate respondsToSelector:@selector(weekSelector:willSelectDate:)]) {
+    [self.delegate weekSelector:self willSelectDate:date];
+  }
+}
+
+
+- (void)userDidSelectDate:(NSDate *)date
 {
   [self colorLabelForDate:_selectedDate withTextColor:self.numberTextColor];
   _selectedDate = date;
 
   [self animateSelectionToPreDrag];
   
-  [self.delegate weekSelector:self selectedDate:self.selectedDate];
+  if ([self.delegate respondsToSelector:@selector(weekSelector:didSelectDate:)]) {
+    [self.delegate weekSelector:self didSelectDate:date];
+  }
 }
 
 - (void)animateSelectionToPreDrag

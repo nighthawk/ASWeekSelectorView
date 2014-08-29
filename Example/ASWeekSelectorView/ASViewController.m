@@ -40,13 +40,14 @@
   [self updateLabelForDate:now];
 
   self.weekSelector.firstWeekday = 2; // monday
-  self.weekSelector.selectedDate = now;
+  self.weekSelector.letterTextColor = [UIColor colorWithWhite:.5 alpha:1];
   self.weekSelector.delegate = self;
+  self.weekSelector.selectedDate = now;
 }
 
 #pragma mark - ASWeekSelectorViewDelegate
 
-- (void)weekSelector:(ASWeekSelectorView *)weekSelector selectedDate:(NSDate *)date
+- (void)weekSelector:(ASWeekSelectorView *)weekSelector willSelectDate:(NSDate *)date
 {
   [self updateLabelForDate:date];
 }
