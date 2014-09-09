@@ -112,6 +112,22 @@
   return self;
 }
 
+- (void)setFrame:(CGRect)frame
+{
+  BOOL didChange = !CGRectEqualToRect(frame, self.frame);
+  
+  [super setFrame:frame];
+  
+  if (didChange) {
+    _selectionView = nil;
+    _todayView = nil;
+    for (UIView *view in [self subviews]) {
+      [view removeFromSuperview];
+    }
+    [self didInit];
+  }
+}
+
 #pragma mark - UIScrollViewDelegate
 
 - (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView
@@ -124,6 +140,10 @@
 
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView
 {
+  if (self.singleWeekViews.count <= 0) {
+    return; // not ready yet
+  }
+  
   CGPoint offset = scrollView.contentOffset;
   BOOL updatedOffset = NO;
   
@@ -303,11 +323,13 @@
   scrollView.pagingEnabled = YES;
   scrollView.delegate = self;
   scrollView.showsVerticalScrollIndicator = NO;
+  scrollView.autoresizingMask = UIViewAutoresizingFlexibleWidth;
   [self addSubview:scrollView];
   self.scrollView = scrollView;
   
   UIView *lineView = [[UIView alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(scrollViewFrame), width, 1)];
   lineView.backgroundColor = self.lineColor;
+  lineView.autoresizingMask = UIViewAutoresizingFlexibleWidth;
   [self insertSubview:lineView atIndex:0];
   self.lineView = lineView;
 
