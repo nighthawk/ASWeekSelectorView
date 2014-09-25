@@ -323,6 +323,7 @@
   scrollView.pagingEnabled = YES;
   scrollView.delegate = self;
   scrollView.showsVerticalScrollIndicator = NO;
+  scrollView.showsHorizontalScrollIndicator = NO;
   scrollView.autoresizingMask = UIViewAutoresizingFlexibleWidth;
   [self addSubview:scrollView];
   self.scrollView = scrollView;
