@@ -31,7 +31,10 @@
 
 - (CGRect)circleRect
 {
-  CGFloat diameter = CGRectGetWidth(self.frame) * .66;
+  CGFloat diameterFromWidth  = CGRectGetWidth(self.frame) * .66;
+  CGFloat diameterFromHeight = CGRectGetHeight(self.frame) * .5;
+  
+  CGFloat diameter = MIN(diameterFromWidth, diameterFromHeight);
   CGFloat xOffset = self.circleCenter.x - diameter / 2;
   CGFloat yOffset = self.circleCenter.y - diameter / 2;
   return CGRectMake(xOffset, yOffset, diameter, diameter);
