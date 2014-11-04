@@ -32,6 +32,7 @@
 @property (nonatomic, assign) CGFloat preDragSelectionX;
 @property (nonatomic, assign) CGFloat preDragOffsetX;
 @property (nonatomic, assign) BOOL isAnimating;
+@property (nonatomic, assign) BOOL isSettingFrame;
 
 @property (nonatomic, strong) NSDateFormatter *dayNameDateFormatter;
 @property (nonatomic, strong) NSDateFormatter *dayNumberDateFormatter;
@@ -114,6 +115,7 @@
 
 - (void)setFrame:(CGRect)frame
 {
+  self.isSettingFrame = YES;
   BOOL didChange = !CGRectEqualToRect(frame, self.frame);
   
   [super setFrame:frame];
@@ -126,6 +128,7 @@
     }
     [self didInit];
   }
+  self.isSettingFrame = NO;
 }
 
 #pragma mark - UIScrollViewDelegate
@@ -140,7 +143,7 @@
 
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView
 {
-  if (self.singleWeekViews.count <= 0) {
+  if (self.singleWeekViews.count <= 0 || self.isSettingFrame) {
     return; // not ready yet
   }
   
