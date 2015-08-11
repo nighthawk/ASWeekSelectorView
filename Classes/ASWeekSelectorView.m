@@ -99,7 +99,7 @@
 {
   self = [super initWithFrame:frame];
   if (self) {
-    [self didInit];
+    [self didInit:YES];
   }
   return self;
 }
@@ -108,7 +108,7 @@
 {
   self = [super initWithCoder:aDecoder];
   if (self) {
-    [self didInit];
+    [self didInit:YES];
   }
   return self;
 }
@@ -126,7 +126,7 @@
     for (UIView *view in [self subviews]) {
       [view removeFromSuperview];
     }
-    [self didInit];
+    [self didInit:NO];
   }
   self.isSettingFrame = NO;
 }
@@ -300,22 +300,24 @@
 
 #pragma mark - Private helpers
 
-- (void)didInit
+- (void)didInit:(BOOL)setDefaults
 {
-  // default styles
-  _letterTextColor = [UIColor colorWithWhite:204.f/255 alpha:1];
-  _numberTextColor = [UIColor colorWithWhite:77.f/255 alpha:1];
-  _lineColor = [UIColor colorWithWhite:245.f/255 alpha:1];
-  _selectorBackgroundColor = [UIColor whiteColor];
-  _selectorLetterTextColor = [UIColor whiteColor];
-  _preDragOffsetX = MAXFLOAT;
-  _preDragSelectionX = MAXFLOAT;
-  _locale = [NSLocale autoupdatingCurrentLocale];
-  
-  // this is using variables directly to not trigger setter methods
-  _singleWeekViews = [NSMutableArray arrayWithCapacity:WEEKS];
-  _firstWeekday = 1; // sunday
-  _gregorian = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
+  if (setDefaults) {
+    // default styles
+    _letterTextColor = [UIColor colorWithWhite:204.f/255 alpha:1];
+    _numberTextColor = [UIColor colorWithWhite:77.f/255 alpha:1];
+    _lineColor = [UIColor colorWithWhite:245.f/255 alpha:1];
+    _selectorBackgroundColor = [UIColor whiteColor];
+    _selectorLetterTextColor = [UIColor whiteColor];
+    _preDragOffsetX = MAXFLOAT;
+    _preDragSelectionX = MAXFLOAT;
+    _locale = [NSLocale autoupdatingCurrentLocale];
+    
+    // this is using variables directly to not trigger setter methods
+    _singleWeekViews = [NSMutableArray arrayWithCapacity:WEEKS];
+    _firstWeekday = 1; // sunday
+    _gregorian = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
+  }
   
   CGFloat width = CGRectGetWidth(self.frame);
   CGFloat height = CGRectGetHeight(self.frame);
