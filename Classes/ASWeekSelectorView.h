@@ -103,6 +103,9 @@
  */
 - (void)weekSelectorDidSwipe:(ASWeekSelectorView *)weekSelector;
 
+/**
+ saves delaring a calendar all the time
+ */
 -(BOOL)isDateOneDay:(NSDate *)oneDay sameAs:(NSDate *)otherDay;
 
 @end
