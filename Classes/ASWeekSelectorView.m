@@ -393,7 +393,7 @@
   }
   
   // determine where the start of the previews week was as that'll be our start date
-  NSDateComponents *component = [self.gregorian components:NSWeekdayCalendarUnit fromDate:self.selectedDate];
+  NSDateComponents *component = [self.gregorian components:NSCalendarUnitWeekday fromDate:self.selectedDate];
   NSInteger weekday = [component weekday];
   NSInteger daysToSubtract;
   if (weekday == self.firstWeekday) {
