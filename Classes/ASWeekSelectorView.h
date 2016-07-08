@@ -44,6 +44,15 @@
  */
 @property (nonatomic, strong) NSLocale *locale;
 
+/**
+ array of dates to be highlighted
+ */
+@property (nonatomic,strong) NSMutableArray *highlightedDates;
+
+/**
+ this will be set to red but can be overridden
+ */
+@property (nonatomic,strong) UIColor *defaultHighlightColor;
 
 /**
  The selected date which is highlighted in the view. When setting this property, the view will also jump to show that date.
@@ -78,6 +87,12 @@
  */
 - (void)weekSelector:(ASWeekSelectorView *)weekSelector didSelectDate:(NSDate *)date;
 
+/**
+ if nil is returned then the color wil default to red
+ @param date this is the date for which we want custom color
+ @return this is the color of the highlighter
+ */
+-(UIColor *)UIColorForDate:(NSDate *)date;
 
 /**
  Called when the user did actively swipe to a new week.
@@ -87,5 +102,10 @@
  @param weekSelector The week selector that the user interacted with.
  */
 - (void)weekSelectorDidSwipe:(ASWeekSelectorView *)weekSelector;
+
+/**
+ saves delaring a calendar all the time
+ */
+-(BOOL)isDateOneDay:(NSDate *)oneDay sameAs:(NSDate *)otherDay;
 
 @end
