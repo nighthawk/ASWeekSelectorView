@@ -63,6 +63,11 @@
   [self setSelectedDate:selectedDate animated:NO];
 }
 
+-(BOOL)isDateOneDay:(NSDate *)oneDay sameAs:(NSDate *)otherDay {
+    NSCalendar *cal = [NSCalendar currentCalendar];
+    return [cal isDate:otherDay inSameDayAsDate:oneDay];
+}
+
 - (void)setSelectedDate:(NSDate *)selectedDate animated:(BOOL)animated
 {
   if (!self.lastToday || ![self date:self.lastToday matchesDateComponentsOfDate:[NSDate date]]) {
@@ -270,6 +275,19 @@
   numberLabel.textColor = (isSelection && ! self.isAnimating) ? self.selectorLetterTextColor : self.numberTextColor;
   numberLabel.text = dayNumberText;
   numberLabel.tag = 100 + [dayNumberText integerValue];
+    
+    
+  NSCalendar *curCal = [NSCalendar currentCalendar];
+    for (NSDate *d in  self.highlightedDates)
+    {
+        if([curCal isDate:date inSameDayAsDate:d]){
+            UIColor *color = [_delegate UIColorForDate:date];
+            if (color == nil){ color = self.defaultHighlightColor;}
+            ASDaySelectionView *view = [self eventDayView];
+            view.circleColor = color;
+            [wrapper insertSubview:view atIndex:0];
+        }
+    }
   [wrapper addSubview:numberLabel];
   
   UIView *lineView = [[UIView alloc] initWithFrame:CGRectMake(CGRectGetMaxX(frame) - 1, 0, 1, CGRectGetHeight(frame))];
@@ -318,7 +336,8 @@
     _firstWeekday = 1; // sunday
     _gregorian = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
   }
-  
+  if(self.defaultHighlightColor == nil){ self.defaultHighlightColor = [UIColor redColor];}
+  if(self.highlightedDates == nil){self.highlightedDates = [[NSMutableArray alloc] init];}
   CGFloat width = CGRectGetWidth(self.frame);
   CGFloat height = CGRectGetHeight(self.frame);
   CGRect scrollViewFrame = CGRectMake(0, 0, width, height - 1);
@@ -522,4 +541,16 @@
   return _todayView;
 }
 
+-(ASDaySelectionView *)eventDayView
+{
+    CGFloat width = CGRectGetWidth(self.frame) / 7;
+    CGFloat height = CGRectGetHeight(self.frame);
+    ASDaySelectionView *view = [[ASDaySelectionView alloc] initWithFrame:CGRectMake(0, 0, width, height)];
+    view.backgroundColor = [UIColor clearColor];
+    view.fillCircle = NO;
+    view.circleCenter = CGPointMake(width / 2, 20 + (height - 20) / 2);
+    view.circleColor = [UIColor redColor];
+    view.userInteractionEnabled = NO;
+    return view;
+}
 @end
