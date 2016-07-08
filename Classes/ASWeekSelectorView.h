@@ -91,7 +91,7 @@
  @param date Date for which to customise color (not called for selected date)
  @return Color of the highlighter circle, or `nil` if no circle
  */
--( UIColor *)weekSelector:(ASWeekSelectorView *)weekSelector circleColorForDate:(NSDate *)date;
+- (UIColor *)weekSelector:(ASWeekSelectorView *)weekSelector circleColorForDate:(NSDate *)date;
 
 /**
  Implement to change the color of the number for the specified date.
@@ -99,5 +99,12 @@
  @return Color of number label, or `nil` to use default `numberTextColor`
  */
 - (UIColor *)weekSelector:(ASWeekSelectorView *)weekSelector numberColorForDate:(NSDate *)date;
+
+/**
+ Implement to allow showing a dot below the number for the specified date.
+ @param date Date for which to show a dot (or not)
+ @return Whether an indicator dot should be shown
+ */
+- (BOOL)weekSelector:(ASWeekSelectorView *)weekSelector showIndicatorForDate:(NSDate *)date;
 
 @end

@@ -1,3 +1,4 @@
+
 //
 //  ASViewController.m
 //  ASWeekSelectorView
@@ -54,11 +55,31 @@
 
 - (UIColor *)weekSelector:(ASWeekSelectorView *)weekSelector numberColorForDate:(NSDate *)date
 {
-  if ([date timeIntervalSinceNow] < -24 * 60 * 60) {
+  NSCalendar *gregorian = [NSCalendar calendarWithIdentifier:NSCalendarIdentifierGregorian];
+  NSInteger weekday = [gregorian component:NSCalendarUnitWeekday fromDate:date];
+  if (weekday == 1 || weekday == 7) { // Sat or Sun
     return [UIColor lightGrayColor];
   } else {
     return nil;
   }
+}
+
+- (UIColor *)weekSelector:(ASWeekSelectorView *)weekSelector circleColorForDate:(NSDate *)date
+{
+  NSCalendar *gregorian = [NSCalendar calendarWithIdentifier:NSCalendarIdentifierGregorian];
+  NSInteger weekday = [gregorian component:NSCalendarUnitWeekday fromDate:date];
+  if (weekday == 2) { // Mo
+    return [UIColor greenColor];
+  } else {
+    return nil;
+  }
+}
+
+- (BOOL)weekSelector:(ASWeekSelectorView *)weekSelector showIndicatorForDate:(NSDate *)date
+{
+  NSCalendar *gregorian = [NSCalendar calendarWithIdentifier:NSCalendarIdentifierGregorian];
+  NSInteger weekday = [gregorian component:NSCalendarUnitDay fromDate:date];
+  return weekday % 2 == 1;
 }
 
 @end

@@ -8,6 +8,8 @@
 
 #import "ASWeekSelectorView.h"
 
+#import <QuartzCore/QuartzCore.h>
+
 #import "ASSingleWeekView.h"
 #import "ASDaySelectionView.h"
 
@@ -275,6 +277,7 @@
   }
   numberLabel.text = dayNumberText;
   numberLabel.tag = 100 + [dayNumberText integerValue];
+  [wrapper addSubview:numberLabel];
   
   if ([self.delegate respondsToSelector:@selector(weekSelector:circleColorForDate:)]) {
     UIColor *color = [self.delegate weekSelector:self circleColorForDate:date];
@@ -284,7 +287,18 @@
       [wrapper insertSubview:view atIndex:0];
     }
   }
-  [wrapper addSubview:numberLabel];
+  
+  if ([self.delegate respondsToSelector:@selector(weekSelector:showIndicatorForDate:)]) {
+    if ([self.delegate weekSelector:self showIndicatorForDate:date]) {
+      CGFloat radius = 3;
+      CGRect indicatorFrame = CGRectMake((width - radius) / 2, CGRectGetMaxY(numberFrame) - 7 - radius, radius, radius);
+      UIView *view = [[UIView alloc] initWithFrame:indicatorFrame];
+      view.backgroundColor = numberLabel.textColor;
+      view.layer.cornerRadius = radius / 2;
+      view.tag = 200 + [dayNumberText integerValue];
+      [wrapper addSubview:view];
+    }
+  }
   
   UIView *lineView = [[UIView alloc] initWithFrame:CGRectMake(CGRectGetMaxX(frame) - 1, 0, 1, CGRectGetHeight(frame))];
   lineView.backgroundColor = self.lineColor;
@@ -299,6 +313,7 @@
 - (void)singleWeekView:(ASSingleWeekView *)singleWeekView didSelectDate:(NSDate *)date atFrame:(CGRect)frame
 {
   [self userWillSelectDate:date];
+  
   UIColor *numberTextColor = [self numberTextColorForDate:_selectedDate];
   [self colorLabelForDate:_selectedDate withTextColor:numberTextColor];
 
@@ -487,7 +502,7 @@
 }
 
 - (UIColor *)numberTextColorForDate:(NSDate *)date {
-  if ([self.delegate respondsToSelector:@selector(weekSelector:numberColorForDate:)]) {
+  if (date && [self.delegate respondsToSelector:@selector(weekSelector:numberColorForDate:)]) {
     return [self.delegate weekSelector:self numberColorForDate:date] ?: self.numberTextColor;
   } else {
     return self.numberTextColor;
@@ -497,9 +512,13 @@
 - (void)colorLabelForDate:(NSDate *)date withTextColor:(UIColor *)textColor
 {
   NSString *dayNumberText = [self.dayNumberDateFormatter stringFromDate:date];
-  NSInteger viewTag = 100 + [dayNumberText integerValue];
+  NSInteger labelTag = 100 + [dayNumberText integerValue];
+  NSInteger indicatorTag = 200 + [dayNumberText integerValue];
   for (ASSingleWeekView *singleWeek in self.singleWeekViews) {
-    UIView *view = [singleWeek viewWithTag:viewTag];
+    UIView *view = [singleWeek viewWithTag:indicatorTag];
+    view.backgroundColor = textColor;
+    
+    view = [singleWeek viewWithTag:labelTag];
     if ([view isKindOfClass:[UILabel class]]) {
       UILabel *label = (UILabel *)view;
       label.textColor = textColor;
