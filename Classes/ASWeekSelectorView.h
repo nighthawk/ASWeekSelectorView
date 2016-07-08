@@ -55,6 +55,13 @@
  */
 - (void)setSelectedDate:(NSDate *)selectedDate animated:(BOOL)animated;
 
+/**
+ Triggers a refresh of the week view, which calls again the delegate methods
+ for configuring colours and the indicators. Call this if your underlying
+ data has changed and you need those valus refreshed.
+ */
+- (void)refresh;
+
 @end
 
 @protocol ASWeekSelectorViewDelegate <NSObject>

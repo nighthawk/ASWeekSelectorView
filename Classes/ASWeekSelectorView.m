@@ -96,6 +96,10 @@
   [self updateDateFormatters];
 }
 
+- (void)refresh {
+  [self rebuildWeeks];
+}
+
 #pragma mark - UIView
 
 - (id)initWithFrame:(CGRect)frame
