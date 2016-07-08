@@ -325,7 +325,7 @@
     // this is using variables directly to not trigger setter methods
     _singleWeekViews = [NSMutableArray arrayWithCapacity:WEEKS];
     _firstWeekday = 1; // sunday
-    _gregorian = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
+    _gregorian = [[NSCalendar alloc] initWithCalendarIdentifier:NSCalendarIdentifierGregorian];
   }
   CGFloat width = CGRectGetWidth(self.frame);
   CGFloat height = CGRectGetHeight(self.frame);
