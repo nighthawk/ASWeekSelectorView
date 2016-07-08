@@ -70,7 +70,8 @@
   }
   
   if (! [self date:selectedDate matchesDateComponentsOfDate:_selectedDate]) {
-    [self colorLabelForDate:_selectedDate withTextColor:self.numberTextColor];
+    UIColor *numberTextColor = [self numberTextColorForDate:_selectedDate];
+    [self colorLabelForDate:_selectedDate withTextColor:numberTextColor];
     _selectedDate = selectedDate;
     self.isAnimating = animated;
     
@@ -267,7 +268,11 @@
   UILabel *numberLabel = [[UILabel alloc] initWithFrame:numberFrame];
   numberLabel.textAlignment = NSTextAlignmentCenter;
   numberLabel.font = [UIFont systemFontOfSize:18];
-  numberLabel.textColor = (isSelection && ! self.isAnimating) ? self.selectorLetterTextColor : self.numberTextColor;
+  if (isSelection && ! self.isAnimating) {
+    numberLabel.textColor = self.selectorLetterTextColor;
+  } else {
+    numberLabel.textColor = [self numberTextColorForDate:date];
+  }
   numberLabel.text = dayNumberText;
   numberLabel.tag = 100 + [dayNumberText integerValue];
   
@@ -294,7 +299,8 @@
 - (void)singleWeekView:(ASSingleWeekView *)singleWeekView didSelectDate:(NSDate *)date atFrame:(CGRect)frame
 {
   [self userWillSelectDate:date];
-  [self colorLabelForDate:_selectedDate withTextColor:self.numberTextColor];
+  UIColor *numberTextColor = [self numberTextColorForDate:_selectedDate];
+  [self colorLabelForDate:_selectedDate withTextColor:numberTextColor];
 
   [UIView animateWithDuration:0.25f
                    animations:
@@ -447,7 +453,8 @@
 
 - (void)userDidSelectDate:(NSDate *)date
 {
-  [self colorLabelForDate:_selectedDate withTextColor:self.numberTextColor];
+  UIColor *numberTextColor = [self numberTextColorForDate:_selectedDate];
+  [self colorLabelForDate:_selectedDate withTextColor:numberTextColor];
   _selectedDate = date;
 
   [self animateSelectionToPreDrag];
@@ -476,6 +483,14 @@
     self.preDragOffsetX = MAXFLOAT;
   } else {
     [self colorLabelForDate:_selectedDate withTextColor:self.selectorLetterTextColor];
+  }
+}
+
+- (UIColor *)numberTextColorForDate:(NSDate *)date {
+  if ([self.delegate respondsToSelector:@selector(weekSelector:numberColorForDate:)]) {
+    return [self.delegate weekSelector:self numberColorForDate:date] ?: self.numberTextColor;
+  } else {
+    return self.numberTextColor;
   }
 }
 

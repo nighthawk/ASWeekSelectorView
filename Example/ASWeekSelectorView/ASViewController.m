@@ -52,4 +52,13 @@
   [self updateLabelForDate:date];
 }
 
+- (UIColor *)weekSelector:(ASWeekSelectorView *)weekSelector numberColorForDate:(NSDate *)date
+{
+  if ([date timeIntervalSinceNow] < -24 * 60 * 60) {
+    return [UIColor lightGrayColor];
+  } else {
+    return nil;
+  }
+}
+
 @end
