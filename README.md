@@ -17,7 +17,7 @@ It's using the methodology described in Apple's excellent WWDC 2011 session 104 
 pod 'ASWeekSelectorView', '~> 0.4.0'
 ```
 
-2) Add an instance of `ASWeekSelectorView` to your view hierarchy, configure it, provide a delegate and implement the delegate method. (Note that you won't need to use `ASSingleWeekView` yourself - it's just a helper class.)
+2) Add an instance of `ASWeekSelectorView` to your view hierarchy, configure it, provide a delegate and implement the delegate smethod. (Note that you won't need to use `ASDaySelectionView` and `ASSingleWeekView` yourself - they are internal helper class.)
 
 3) When using Auto Layout, adjust the frame in `viewWillLayoutSubviews`:
 
