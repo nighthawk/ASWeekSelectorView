@@ -46,6 +46,15 @@
   self.weekSelector.selectedDate = now;
 }
 
+- (void)viewWillLayoutSubviews
+{
+  [super viewWillLayoutSubviews];
+  
+  CGRect frame = self.weekSelector.frame;
+  frame.size.width = CGRectGetWidth(self.view.frame);
+  self.weekSelector.frame = frame;
+}
+
 #pragma mark - ASWeekSelectorViewDelegate
 
 - (void)weekSelector:(ASWeekSelectorView *)weekSelector willSelectDate:(NSDate *)date
