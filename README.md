@@ -2,8 +2,9 @@
 
 [![Badge w/ Version](http://cocoapod-badges.herokuapp.com/v/ASWeekSelectorView/badge.png)](http://cocoadocs.org/docsets/ASWeekSelectorView)
 [![Badge w/ Platform](http://cocoapod-badges.herokuapp.com/p/ASWeekSelectorView/badge.png)](http://cocoadocs.org/docsets/ASWeekSelectorView)
+[![Carthage compatible](https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat)](https://github.com/Carthage/Carthage)
 
-A mini week view to select a day. You can swipe through weeks and tap on a day to select them, somewhat similar to the iOS 7 calendar app.
+A mini week view to select a day. You can swipe through weeks and tap on a day to select them, somewhat similar to the iOS calendar app (since iOS 7).
  
 It's using the methodology described in Apple's excellent WWDC 2011 session 104 "Advanced ScrollView Techniques".
 
@@ -11,10 +12,18 @@ It's using the methodology described in Apple's excellent WWDC 2011 session 104 
 
 # Setup
 
-1) Add to your Podfile:
+1) Add to your project.
+
+Using Cocoapods:
 
 ```ruby
-pod 'ASWeekSelectorView', '~> 0.4.0'
+pod 'ASWeekSelectorView', '~> 1.0'
+```
+
+Using Carthage:
+
+```
+github "nighthawk/ASWeekSelectorView"
 ```
 
 2) Add an instance of `ASWeekSelectorView` to your view hierarchy, configure it, provide a delegate and implement the delegate smethod. (Note that you won't need to use `ASDaySelectionView` and `ASSingleWeekView` yourself - they are internal helper class.)
