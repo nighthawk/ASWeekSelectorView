@@ -1,0 +1,23 @@
+language: objective-c
+osx_image: xcode7.3
+xcode_project: Example/ASWeekSelectorView.xcodeproj
+xcode_scheme: ASWeekSelectorView
+xcode_sdk: iphonesimulator9.3
+env:
+  global:
+  - FRAMEWORK_NAME=ASWeekSelectorView
+before_install:
+- brew update
+- brew outdated carthage || brew upgrade carthage
+before_script:
+- carthage bootstrap
+before_deploy:
+- carthage build --no-skip-current
+- carthage archive $FRAMEWORK_NAME
+deploy:
+  provider: releases
+  api_key:
+    secure: t7BNwlYdtueVSQBXAF+FcvjmLa3uBDXCaue3HVeFlXdA0lV04BQUpdCK6rRhfAw941LiKQxaCbfUFWAs1K4vm7AAkHhwvjdhlseG2hmlV4Jqx39g7mJAOl8s8DM5DJvvfiI764DzyUmHBNNB0l4IQ2eWzieOLBZdsdd4SrhvfkE=
+  file: "."
+  on:
+    repo: nighthawk/ASWeekSelectorView
