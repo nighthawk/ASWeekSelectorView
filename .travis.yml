@@ -18,6 +18,8 @@ deploy:
   provider: releases
   api_key:
     secure: t7BNwlYdtueVSQBXAF+FcvjmLa3uBDXCaue3HVeFlXdA0lV04BQUpdCK6rRhfAw941LiKQxaCbfUFWAs1K4vm7AAkHhwvjdhlseG2hmlV4Jqx39g7mJAOl8s8DM5DJvvfiI764DzyUmHBNNB0l4IQ2eWzieOLBZdsdd4SrhvfkE=
-  file: "."
+  file: $FRAMEWORK_NAME.framework.zip
+  skip_cleanup: true
   on:
     repo: nighthawk/ASWeekSelectorView
+    tags: true
