@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		3A278F7219062FB9009DDB4D /* ASDaySelectionView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A278F7119062FB9009DDB4D /* ASDaySelectionView.m */; };
 		3AAC012D18FE027600EBD85D /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3AAC012C18FE027600EBD85D /* Foundation.framework */; };
 		3AAC012F18FE027700EBD85D /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3AAC012E18FE027700EBD85D /* CoreGraphics.framework */; };
 		3AAC013118FE027700EBD85D /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3AAC013018FE027700EBD85D /* UIKit.framework */; };
@@ -22,8 +21,14 @@
 		3AAC014E18FE027700EBD85D /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3AAC013018FE027700EBD85D /* UIKit.framework */; };
 		3AAC015618FE027700EBD85D /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 3AAC015418FE027700EBD85D /* InfoPlist.strings */; };
 		3AAC015818FE027700EBD85D /* ASWeekSelectorViewTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 3AAC015718FE027700EBD85D /* ASWeekSelectorViewTests.m */; };
-		3AAC016418FE04C800EBD85D /* ASWeekSelectorView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3AAC016318FE04C800EBD85D /* ASWeekSelectorView.m */; };
-		3AAC016718FE0A0400EBD85D /* ASSingleWeekView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3AAC016618FE0A0400EBD85D /* ASSingleWeekView.m */; };
+		3AF0FE6F1D363ADD00859505 /* ASWeekSelectorView.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3AF0FE681D363ADD00859505 /* ASWeekSelectorView.framework */; };
+		3AF0FE701D363ADD00859505 /* ASWeekSelectorView.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 3AF0FE681D363ADD00859505 /* ASWeekSelectorView.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		3AF0FE751D363C0300859505 /* ASWeekSelectorView.h in Headers */ = {isa = PBXBuildFile; fileRef = 3AAC016218FE04C800EBD85D /* ASWeekSelectorView.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		3AF0FE761D363C0800859505 /* ASDaySelectionView.h in Headers */ = {isa = PBXBuildFile; fileRef = 3A278F7019062FB9009DDB4D /* ASDaySelectionView.h */; };
+		3AF0FE771D363C0E00859505 /* ASSingleWeekView.h in Headers */ = {isa = PBXBuildFile; fileRef = 3AAC016518FE0A0400EBD85D /* ASSingleWeekView.h */; };
+		3AF0FE781D363C1300859505 /* ASSingleWeekView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3AAC016618FE0A0400EBD85D /* ASSingleWeekView.m */; };
+		3AF0FE791D363C1300859505 /* ASDaySelectionView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3A278F7119062FB9009DDB4D /* ASDaySelectionView.m */; };
+		3AF0FE7A1D363C1300859505 /* ASWeekSelectorView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3AAC016318FE04C800EBD85D /* ASWeekSelectorView.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -34,12 +39,33 @@
 			remoteGlobalIDString = 3AAC012818FE027600EBD85D;
 			remoteInfo = ASWeekSelectorView;
 		};
+		3AF0FE6D1D363ADD00859505 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 3AAC012118FE027600EBD85D /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 3AF0FE671D363ADD00859505;
+			remoteInfo = ASWeekSelectorView;
+		};
 /* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		3AF0FE741D363ADD00859505 /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				3AF0FE701D363ADD00859505 /* ASWeekSelectorView.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		3A278F7019062FB9009DDB4D /* ASDaySelectionView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ASDaySelectionView.h; path = ../Classes/ASDaySelectionView.h; sourceTree = "<group>"; };
 		3A278F7119062FB9009DDB4D /* ASDaySelectionView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ASDaySelectionView.m; path = ../Classes/ASDaySelectionView.m; sourceTree = "<group>"; };
-		3AAC012918FE027600EBD85D /* ASWeekSelectorView.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ASWeekSelectorView.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		3AAC012918FE027600EBD85D /* ASWeekSelectorViewExample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ASWeekSelectorViewExample.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3AAC012C18FE027600EBD85D /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		3AAC012E18FE027700EBD85D /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 		3AAC013018FE027700EBD85D /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
@@ -62,6 +88,8 @@
 		3AAC016318FE04C800EBD85D /* ASWeekSelectorView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ASWeekSelectorView.m; path = ../Classes/ASWeekSelectorView.m; sourceTree = "<group>"; };
 		3AAC016518FE0A0400EBD85D /* ASSingleWeekView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ASSingleWeekView.h; path = ../Classes/ASSingleWeekView.h; sourceTree = "<group>"; };
 		3AAC016618FE0A0400EBD85D /* ASSingleWeekView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ASSingleWeekView.m; path = ../Classes/ASSingleWeekView.m; sourceTree = "<group>"; };
+		3AF0FE681D363ADD00859505 /* ASWeekSelectorView.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = ASWeekSelectorView.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		3AF0FE6C1D363ADD00859505 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = Info.plist; path = ASWeekSelectorView/Info.plist; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -69,6 +97,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3AF0FE6F1D363ADD00859505 /* ASWeekSelectorView.framework in Frameworks */,
 				3AAC012F18FE027700EBD85D /* CoreGraphics.framework in Frameworks */,
 				3AAC013118FE027700EBD85D /* UIKit.framework in Frameworks */,
 				3AAC012D18FE027600EBD85D /* Foundation.framework in Frameworks */,
@@ -82,6 +111,13 @@
 				3AAC014C18FE027700EBD85D /* XCTest.framework in Frameworks */,
 				3AAC014E18FE027700EBD85D /* UIKit.framework in Frameworks */,
 				3AAC014D18FE027700EBD85D /* Foundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		3AF0FE641D363ADD00859505 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -102,8 +138,9 @@
 		3AAC012A18FE027600EBD85D /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				3AAC012918FE027600EBD85D /* ASWeekSelectorView.app */,
+				3AAC012918FE027600EBD85D /* ASWeekSelectorViewExample.app */,
 				3AAC014A18FE027700EBD85D /* ASWeekSelectorViewTests.xctest */,
+				3AF0FE681D363ADD00859505 /* ASWeekSelectorView.framework */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -172,28 +209,44 @@
 				3A278F7119062FB9009DDB4D /* ASDaySelectionView.m */,
 				3AAC016218FE04C800EBD85D /* ASWeekSelectorView.h */,
 				3AAC016318FE04C800EBD85D /* ASWeekSelectorView.m */,
+				3AF0FE6C1D363ADD00859505 /* Info.plist */,
 			);
 			name = ASWeekSelectorView;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
 
+/* Begin PBXHeadersBuildPhase section */
+		3AF0FE651D363ADD00859505 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				3AF0FE751D363C0300859505 /* ASWeekSelectorView.h in Headers */,
+				3AF0FE771D363C0E00859505 /* ASSingleWeekView.h in Headers */,
+				3AF0FE761D363C0800859505 /* ASDaySelectionView.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXHeadersBuildPhase section */
+
 /* Begin PBXNativeTarget section */
-		3AAC012818FE027600EBD85D /* ASWeekSelectorView */ = {
+		3AAC012818FE027600EBD85D /* ASWeekSelectorViewExample */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 3AAC015B18FE027700EBD85D /* Build configuration list for PBXNativeTarget "ASWeekSelectorView" */;
+			buildConfigurationList = 3AAC015B18FE027700EBD85D /* Build configuration list for PBXNativeTarget "ASWeekSelectorViewExample" */;
 			buildPhases = (
 				3AAC012518FE027600EBD85D /* Sources */,
 				3AAC012618FE027600EBD85D /* Frameworks */,
 				3AAC012718FE027600EBD85D /* Resources */,
+				3AF0FE741D363ADD00859505 /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				3AF0FE6E1D363ADD00859505 /* PBXTargetDependency */,
 			);
-			name = ASWeekSelectorView;
+			name = ASWeekSelectorViewExample;
 			productName = ASWeekSelectorView;
-			productReference = 3AAC012918FE027600EBD85D /* ASWeekSelectorView.app */;
+			productReference = 3AAC012918FE027600EBD85D /* ASWeekSelectorViewExample.app */;
 			productType = "com.apple.product-type.application";
 		};
 		3AAC014918FE027700EBD85D /* ASWeekSelectorViewTests */ = {
@@ -214,6 +267,24 @@
 			productReference = 3AAC014A18FE027700EBD85D /* ASWeekSelectorViewTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
+		3AF0FE671D363ADD00859505 /* ASWeekSelectorView */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 3AF0FE711D363ADD00859505 /* Build configuration list for PBXNativeTarget "ASWeekSelectorView" */;
+			buildPhases = (
+				3AF0FE631D363ADD00859505 /* Sources */,
+				3AF0FE641D363ADD00859505 /* Frameworks */,
+				3AF0FE651D363ADD00859505 /* Headers */,
+				3AF0FE661D363ADD00859505 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = ASWeekSelectorView;
+			productName = ASWeekSelectorView;
+			productReference = 3AF0FE681D363ADD00859505 /* ASWeekSelectorView.framework */;
+			productType = "com.apple.product-type.framework";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -226,6 +297,9 @@
 				TargetAttributes = {
 					3AAC014918FE027700EBD85D = {
 						TestTargetID = 3AAC012818FE027600EBD85D;
+					};
+					3AF0FE671D363ADD00859505 = {
+						CreatedOnToolsVersion = 7.3.1;
 					};
 				};
 			};
@@ -242,8 +316,9 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				3AAC012818FE027600EBD85D /* ASWeekSelectorView */,
+				3AAC012818FE027600EBD85D /* ASWeekSelectorViewExample */,
 				3AAC014918FE027700EBD85D /* ASWeekSelectorViewTests */,
+				3AF0FE671D363ADD00859505 /* ASWeekSelectorView */,
 			);
 		};
 /* End PBXProject section */
@@ -267,6 +342,13 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		3AF0FE661D363ADD00859505 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
@@ -276,10 +358,7 @@
 			files = (
 				3AAC013D18FE027700EBD85D /* ASAppDelegate.m in Sources */,
 				3AAC014318FE027700EBD85D /* ASViewController.m in Sources */,
-				3A278F7219062FB9009DDB4D /* ASDaySelectionView.m in Sources */,
 				3AAC013918FE027700EBD85D /* main.m in Sources */,
-				3AAC016418FE04C800EBD85D /* ASWeekSelectorView.m in Sources */,
-				3AAC016718FE0A0400EBD85D /* ASSingleWeekView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -291,13 +370,28 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		3AF0FE631D363ADD00859505 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				3AF0FE791D363C1300859505 /* ASDaySelectionView.m in Sources */,
+				3AF0FE781D363C1300859505 /* ASSingleWeekView.m in Sources */,
+				3AF0FE7A1D363C1300859505 /* ASWeekSelectorView.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
 		3AAC015018FE027700EBD85D /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 3AAC012818FE027600EBD85D /* ASWeekSelectorView */;
+			target = 3AAC012818FE027600EBD85D /* ASWeekSelectorViewExample */;
 			targetProxy = 3AAC014F18FE027700EBD85D /* PBXContainerItemProxy */;
+		};
+		3AF0FE6E1D363ADD00859505 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 3AF0FE671D363ADD00859505 /* ASWeekSelectorView */;
+			targetProxy = 3AF0FE6D1D363ADD00859505 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -407,6 +501,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "ASWeekSelectorView/ASWeekSelectorView-Prefix.pch";
 				INFOPLIST_FILE = "ASWeekSelectorView/ASWeekSelectorView-Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "net.byadrian.${PRODUCT_NAME:rfc1034identifier}";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
@@ -420,6 +515,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "ASWeekSelectorView/ASWeekSelectorView-Prefix.pch";
 				INFOPLIST_FILE = "ASWeekSelectorView/ASWeekSelectorView-Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "net.byadrian.${PRODUCT_NAME:rfc1034identifier}";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
@@ -468,6 +564,61 @@
 			};
 			name = Release;
 		};
+		3AF0FE721D363ADD00859505 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_NO_COMMON_BLOCKS = YES;
+				INFOPLIST_FILE = ASWeekSelectorView/Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MTL_ENABLE_DEBUG_INFO = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = com.buzzhives.ASWeekSelectorView;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Debug;
+		};
+		3AF0FE731D363ADD00859505 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_NO_COMMON_BLOCKS = YES;
+				INFOPLIST_FILE = ASWeekSelectorView/Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MTL_ENABLE_DEBUG_INFO = NO;
+				PRODUCT_BUNDLE_IDENTIFIER = com.buzzhives.ASWeekSelectorView;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -480,7 +631,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		3AAC015B18FE027700EBD85D /* Build configuration list for PBXNativeTarget "ASWeekSelectorView" */ = {
+		3AAC015B18FE027700EBD85D /* Build configuration list for PBXNativeTarget "ASWeekSelectorViewExample" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				3AAC015C18FE027700EBD85D /* Debug */,
@@ -497,6 +648,14 @@
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
+		};
+		3AF0FE711D363ADD00859505 /* Build configuration list for PBXNativeTarget "ASWeekSelectorView" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				3AF0FE721D363ADD00859505 /* Debug */,
+				3AF0FE731D363ADD00859505 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
 		};
 /* End XCConfigurationList section */
 	};

@@ -1,12 +1,20 @@
 //
 //  ASWeekSelectorView.h
-//  TripGo
+//  ASWeekSelectorView
 //
 //  Created by Adrian Schoenig on 15/04/2014.
-//
+//  Copyright © 2016 Adrian Schoenig. All rights reserved.
 //
 
 #import <UIKit/UIKit.h>
+
+//! Project version number for ASWeekSelectorView.
+FOUNDATION_EXPORT double ASWeekSelectorViewVersionNumber;
+
+//! Project version string for ASWeekSelectorView.
+FOUNDATION_EXPORT const unsigned char ASWeekSelectorViewVersionString[];
+
+
 
 @protocol ASWeekSelectorViewDelegate;
 
