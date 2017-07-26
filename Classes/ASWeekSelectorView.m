@@ -348,6 +348,7 @@
     _locale = [NSLocale autoupdatingCurrentLocale];
     
     // this is using variables directly to not trigger setter methods
+    _selectedDate = [NSDate date];
     _singleWeekViews = [NSMutableArray arrayWithCapacity:WEEKS];
     _firstWeekday = 1; // sunday
     _gregorian = [[NSCalendar alloc] initWithCalendarIdentifier:NSCalendarIdentifierGregorian];

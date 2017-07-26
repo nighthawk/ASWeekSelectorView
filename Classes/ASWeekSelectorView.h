@@ -15,6 +15,7 @@ FOUNDATION_EXPORT double ASWeekSelectorViewVersionNumber;
 FOUNDATION_EXPORT const unsigned char ASWeekSelectorViewVersionString[];
 
 
+NS_ASSUME_NONNULL_BEGIN
 
 @protocol ASWeekSelectorViewDelegate;
 
@@ -28,7 +29,7 @@ FOUNDATION_EXPORT const unsigned char ASWeekSelectorViewVersionString[];
 /**
  The delegate conforming to the `ASWeekSelectorViewDelegate` delegate.
  */
-@property (nonatomic, weak) id<ASWeekSelectorViewDelegate> delegate;
+@property (nonatomic, weak, nullable) id<ASWeekSelectorViewDelegate> delegate;
 
 /**
  Index of the first day of the week, same as used by `NSCalendar`.
@@ -106,14 +107,14 @@ FOUNDATION_EXPORT const unsigned char ASWeekSelectorViewVersionString[];
  @param date Date for which to customise color (not called for selected date)
  @return Color of the highlighter circle, or `nil` if no circle
  */
-- (UIColor *)weekSelector:(ASWeekSelectorView *)weekSelector circleColorForDate:(NSDate *)date;
+- (nullable UIColor *)weekSelector:(ASWeekSelectorView *)weekSelector circleColorForDate:(NSDate *)date;
 
 /**
  Implement to change the color of the number for the specified date.
  @param date Date for which to customise color (not called for selected date)
  @return Color of number label, or `nil` to use default `numberTextColor`
  */
-- (UIColor *)weekSelector:(ASWeekSelectorView *)weekSelector numberColorForDate:(NSDate *)date;
+- (nullable UIColor *)weekSelector:(ASWeekSelectorView *)weekSelector numberColorForDate:(NSDate *)date;
 
 /**
  Implement to allow showing a dot below the number for the specified date.
@@ -123,3 +124,5 @@ FOUNDATION_EXPORT const unsigned char ASWeekSelectorViewVersionString[];
 - (BOOL)weekSelector:(ASWeekSelectorView *)weekSelector showIndicatorForDate:(NSDate *)date;
 
 @end
+
+NS_ASSUME_NONNULL_END
