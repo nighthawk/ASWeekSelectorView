@@ -12,6 +12,8 @@ before_install:
 before_deploy:
 - carthage build --no-skip-current
 - carthage archive $FRAMEWORK_NAME
+script:
+    - xcodebuild clean build -sdk iphonesimulator -project Example/ASWeekSelectorView.xcodeproj -scheme ASWeekSelectorView CODE_SIGNING_REQUIRED=NO
 deploy:
   provider: releases
   api_key:
