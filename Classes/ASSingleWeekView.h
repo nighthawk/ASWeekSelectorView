@@ -8,16 +8,18 @@
 
 #import <UIKit/UIKit.h>
 
+NS_ASSUME_NONNULL_BEGIN
+
 @protocol ASSingleWeekViewDelegate;
 
 @interface ASSingleWeekView : UIView
 
-@property (nonatomic, weak) id<ASSingleWeekViewDelegate> delegate;
+@property (nonatomic, weak, nullable) id<ASSingleWeekViewDelegate> delegate;
 
 /**
  The first date to be shown.
  */
-@property (nonatomic, strong) NSDate *startDate;
+@property (nonatomic, strong, null_resettable) NSDate *startDate;
 
 @end
 
@@ -28,3 +30,5 @@
 - (UIView *)singleWeekView:(ASSingleWeekView *)singleWeekView viewForDate:(NSDate *)date withFrame:(CGRect)frame;
 
 @end
+
+NS_ASSUME_NONNULL_END

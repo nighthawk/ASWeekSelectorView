@@ -11,7 +11,7 @@
 @interface ASDaySelectionView : UIView
 
 @property (nonatomic, assign) CGPoint circleCenter;
-@property (nonatomic, strong) UIColor *circleColor;
+@property (nonatomic, strong, nullable) UIColor *circleColor;
 @property (nonatomic, assign) BOOL fillCircle;
 
 @end
