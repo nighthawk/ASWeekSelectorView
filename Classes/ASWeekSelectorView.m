@@ -336,6 +336,8 @@
 
 - (void)didInit:(BOOL)setDefaults
 {
+  self.clipsToBounds = YES;
+  
   if (setDefaults) {
     // default styles
     _letterTextColor = [UIColor colorWithWhite:204.f/255 alpha:1];
