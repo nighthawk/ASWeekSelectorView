@@ -138,6 +138,21 @@
   self.isSettingFrame = NO;
 }
 
+- (void)setSelectorBackgroundColor:(UIColor *)selectorBackgroundColor
+{
+  _selectorBackgroundColor = selectorBackgroundColor;
+  
+  self.selectionView.backgroundColor = selectorBackgroundColor;
+}
+
+- (void)setTintColor:(UIColor *)tintColor
+{
+  [super setTintColor:tintColor];
+  
+  self.selectionView.circleColor = self.tintColor;
+  self.todayView.circleColor = self.tintColor;
+}
+
 #pragma mark - UIScrollViewDelegate
 
 - (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView
