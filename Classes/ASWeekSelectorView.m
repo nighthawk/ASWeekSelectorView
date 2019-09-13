@@ -84,7 +84,7 @@
                      completion:
      ^(BOOL finished) {
        self.isAnimating = NO;
-       [self colorLabelForDate:_selectedDate withTextColor:self.selectorLetterTextColor];
+       [self colorLabelForDate:self._selectedDate withTextColor:self.selectorLetterTextColor];
      }];
   }
 }
@@ -513,7 +513,7 @@
      ^{
        self.selectionView.frame = selectionViewFrame;
      } completion:^(BOOL finished) {
-       [self colorLabelForDate:_selectedDate withTextColor:self.selectorLetterTextColor];
+       [self colorLabelForDate:self._selectedDate withTextColor:self.selectorLetterTextColor];
      }];
     
     self.preDragOffsetX = MAXFLOAT;
