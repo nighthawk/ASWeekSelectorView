@@ -45,7 +45,6 @@
 // formatting
 @property (nonatomic, strong) UIColor *selectorLetterTextColor;
 @property (nonatomic, strong) UIColor *selectorBackgroundColor;
-@property (nonatomic, strong) UIColor *lineColor;
 
 @end
 
@@ -358,8 +357,8 @@
     _letterTextColor = [UIColor colorWithWhite:204.f/255 alpha:1];
     _numberTextColor = [UIColor colorWithWhite:77.f/255 alpha:1];
     _lineColor = [UIColor colorWithWhite:245.f/255 alpha:1];
-    _selectorBackgroundColor = [UIColor whiteColor];
-    _selectorLetterTextColor = [UIColor whiteColor];
+    _selectorBackgroundColor = self.backgroundColor;
+    _selectorLetterTextColor = self.backgroundColor;
     _preDragOffsetX = MAXFLOAT;
     _preDragSelectionX = MAXFLOAT;
     _locale = [NSLocale autoupdatingCurrentLocale];

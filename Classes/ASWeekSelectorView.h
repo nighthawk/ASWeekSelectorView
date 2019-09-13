@@ -48,6 +48,11 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, strong) UIColor *letterTextColor;
 
 /**
+ Color used for the various separators at the bottom of the view and between days
+ */
+@property (nonatomic, strong) UIColor *lineColor;
+
+/**
  Locale used for formatting dates
  @default `autoupdatingCurrentLocale`
  */

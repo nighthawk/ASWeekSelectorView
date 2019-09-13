@@ -41,7 +41,9 @@
   [self updateLabelForDate:now];
 
   self.weekSelector.firstWeekday = 2; // monday
-  self.weekSelector.letterTextColor = [UIColor colorWithWhite:.5 alpha:1];
+  self.weekSelector.letterTextColor = UIColor.labelColor;
+  self.weekSelector.numberTextColor = UIColor.labelColor;
+  self.weekSelector.lineColor = UIColor.separatorColor;
   self.weekSelector.delegate = self;
   self.weekSelector.selectedDate = now;
 }
@@ -67,7 +69,7 @@
   NSCalendar *gregorian = [NSCalendar calendarWithIdentifier:NSCalendarIdentifierGregorian];
   NSInteger weekday = [gregorian component:NSCalendarUnitWeekday fromDate:date];
   if (weekday == 1 || weekday == 7) { // Sat or Sun
-    return [UIColor lightGrayColor];
+    return UIColor.secondaryLabelColor;
   } else {
     return nil;
   }
@@ -78,7 +80,7 @@
   NSCalendar *gregorian = [NSCalendar calendarWithIdentifier:NSCalendarIdentifierGregorian];
   NSInteger weekday = [gregorian component:NSCalendarUnitWeekday fromDate:date];
   if (weekday == 2) { // Mo
-    return [UIColor greenColor];
+    return [UIColor systemGreenColor];
   } else {
     return nil;
   }
