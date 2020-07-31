@@ -25,6 +25,7 @@
     CGContextSetStrokeColorWithColor(context, self.circleColor.CGColor);
     CGContextStrokeEllipseInRect(context, circleRect);
   }
+  
 }
 
 #pragma mark - Private helpers

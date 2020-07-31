@@ -84,7 +84,9 @@
                      completion:
      ^(BOOL finished) {
        self.isAnimating = NO;
-       [self colorLabelForDate:selectedDate withTextColor:self.selectorLetterTextColor];
+       if (finished) {
+         [self colorLabelForDate:selectedDate withTextColor:self.selectorLetterTextColor];
+       }
      }];
   }
 }
@@ -95,7 +97,8 @@
   [self updateDateFormatters];
 }
 
-- (void)refresh {
+- (void)refresh
+{
   [self rebuildWeeks];
 }
 
@@ -181,7 +184,7 @@
   }
   
   // prevent horizontal scrolling
-  if (offset.y != 0) {
+  if (fabs(offset.y) > 0.01) {
     offset.y = 0;
     updatedOffset = YES;
   }
@@ -342,7 +345,9 @@
    }
                    completion:
    ^(BOOL finished) {
-     [self userDidSelectDate:date];
+    if (finished) {
+      [self userDidSelectDate:date];
+    }
    }];
 }
 
@@ -425,7 +430,7 @@
   
   // determine where the start of the previews week was as that'll be our start date
   NSDateComponents *component = [self.gregorian components:NSCalendarUnitWeekday fromDate:self.selectedDate];
-  NSInteger weekday = [component weekday];
+  NSUInteger weekday = (NSUInteger) [component weekday];
   NSInteger daysToSubtract;
   if (weekday == self.firstWeekday) {
     daysToSubtract = 0;
@@ -513,7 +518,9 @@
      ^{
        self.selectionView.frame = selectionViewFrame;
      } completion:^(BOOL finished) {
-       [self colorLabelForDate:self.selectedDate withTextColor:self.selectorLetterTextColor];
+       if (finished) {
+         [self colorLabelForDate:self.selectedDate withTextColor:self.selectorLetterTextColor];
+       }
      }];
     
     self.preDragOffsetX = MAXFLOAT;
@@ -557,7 +564,7 @@
     CGFloat height = CGRectGetHeight(self.frame);
     
     ASDaySelectionView *view = [[ASDaySelectionView alloc] initWithFrame:CGRectMake(0, 0, width, height)];
-    view.backgroundColor = self.selectorBackgroundColor;
+    view.backgroundColor = self.selectorBackgroundColor ?: [UIColor clearColor];
     view.fillCircle = YES;
     view.circleCenter = CGPointMake(width / 2, 20 + (height - 20) / 2);
     view.circleColor = self.tintColor;
