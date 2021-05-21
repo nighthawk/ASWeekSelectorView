@@ -28,7 +28,6 @@
 @property (nonatomic, strong) NSMutableArray *singleWeekViews;
 @property (nonatomic, weak) ASDaySelectionView *selectionView;
 @property (nonatomic, strong) ASDaySelectionView *todayView;
-@property (nonatomic, weak) UIView *lineView;
 
 // for animating the selection view
 @property (nonatomic, assign) CGFloat preDragSelectionX;
@@ -44,7 +43,6 @@
 
 // formatting
 @property (nonatomic, strong) UIColor *selectorLetterTextColor;
-@property (nonatomic, strong) UIColor *selectorBackgroundColor;
 
 @end
 
@@ -140,19 +138,18 @@
   self.isSettingFrame = NO;
 }
 
-- (void)setSelectorBackgroundColor:(UIColor *)selectorBackgroundColor
-{
-  _selectorBackgroundColor = selectorBackgroundColor;
-  
-  self.selectionView.backgroundColor = selectorBackgroundColor;
-}
-
 - (void)setTintColor:(UIColor *)tintColor
 {
   [super setTintColor:tintColor];
   
   self.selectionView.circleColor = self.tintColor;
   self.todayView.circleColor = self.tintColor;
+}
+
+- (void)setLetterFont:(UIFont *)letterFont
+{
+  _letterFont = letterFont;
+  [self rebuildWeeks];
 }
 
 #pragma mark - UIScrollViewDelegate
@@ -277,11 +274,11 @@
   CGFloat width = CGRectGetWidth(frame);
 
   CGFloat nameHeight = 20;
-  CGFloat topPadding = 10;
+  CGFloat topPadding = 8;
   CGRect nameFrame = CGRectMake(0, topPadding, width, nameHeight - topPadding);
   UILabel *letterLabel = [[UILabel alloc] initWithFrame:nameFrame];
   letterLabel.textAlignment = NSTextAlignmentCenter;
-  letterLabel.font = [UIFont systemFontOfSize:9];
+  letterLabel.font = self.letterFont;
   letterLabel.textColor = self.letterTextColor;
   letterLabel.text = [[self.dayNameDateFormatter stringFromDate:date] uppercaseString];
   [wrapper addSubview:letterLabel];
@@ -321,10 +318,6 @@
     }
   }
   
-  UIView *lineView = [[UIView alloc] initWithFrame:CGRectMake(CGRectGetMaxX(frame) - 1, 0, 1, CGRectGetHeight(frame))];
-  lineView.backgroundColor = self.lineColor;
-  [wrapper addSubview:lineView];
-  
   wrapper.accessibilityElement = YES;
   wrapper.accessibilityLabel = [self.accessibilityDateFormatter stringFromDate:date];
   wrapper.accessibilityTraits = isSelection ? (UIAccessibilityTraitButton | UIAccessibilityTraitSelected) : UIAccessibilityTraitButton;
@@ -359,10 +352,9 @@
   
   if (setDefaults) {
     // default styles
+    _letterFont = [UIFont systemFontOfSize:9];
     _letterTextColor = [UIColor colorWithWhite:204.f/255 alpha:1];
     _numberTextColor = [UIColor colorWithWhite:77.f/255 alpha:1];
-    _lineColor = [UIColor colorWithWhite:245.f/255 alpha:1];
-    _selectorBackgroundColor = self.backgroundColor;
     _selectorLetterTextColor = self.backgroundColor;
     _preDragOffsetX = MAXFLOAT;
     _preDragSelectionX = MAXFLOAT;
@@ -388,12 +380,6 @@
   [self addSubview:scrollView];
   self.scrollView = scrollView;
   
-  UIView *lineView = [[UIView alloc] initWithFrame:CGRectMake(0, CGRectGetMaxY(scrollViewFrame), width, 1)];
-  lineView.backgroundColor = self.lineColor;
-  lineView.autoresizingMask = UIViewAutoresizingFlexibleWidth;
-  [self insertSubview:lineView atIndex:0];
-  self.lineView = lineView;
-
   [self updateDateFormatters];
 }
 
@@ -560,16 +546,16 @@
 - (ASDaySelectionView *)selectionView
 {
   if (! _selectionView) {
-    CGFloat width = CGRectGetWidth(self.frame) / 7;
+    CGFloat width = ceil(CGRectGetWidth(self.frame) / 7);
     CGFloat height = CGRectGetHeight(self.frame);
     
     ASDaySelectionView *view = [[ASDaySelectionView alloc] initWithFrame:CGRectMake(0, 0, width, height)];
-    view.backgroundColor = self.selectorBackgroundColor ?: [UIColor clearColor];
+    view.backgroundColor = [UIColor clearColor];
     view.fillCircle = YES;
     view.circleCenter = CGPointMake(width / 2, 20 + (height - 20) / 2);
     view.circleColor = self.tintColor;
     view.userInteractionEnabled = NO;
-    [self insertSubview:view aboveSubview:self.lineView];
+    [self insertSubview:view atIndex:0];
     _selectionView = view;
   }
   return _selectionView;
@@ -578,7 +564,7 @@
 - (ASDaySelectionView *)todayView
 {
   if (! _todayView) {
-    CGFloat width = CGRectGetWidth(self.frame) / 7;
+    CGFloat width = ceil(CGRectGetWidth(self.frame) / 7);
     CGFloat height = CGRectGetHeight(self.frame);
     
     ASDaySelectionView *view = [[ASDaySelectionView alloc] initWithFrame:CGRectMake(0, 0, width, height)];
@@ -594,7 +580,7 @@
 
 -(ASDaySelectionView *)eventDayView
 {
-    CGFloat width = CGRectGetWidth(self.frame) / 7;
+    CGFloat width = ceil(CGRectGetWidth(self.frame) / 7);
     CGFloat height = CGRectGetHeight(self.frame);
     ASDaySelectionView *view = [[ASDaySelectionView alloc] initWithFrame:CGRectMake(0, 0, width, height)];
     view.backgroundColor = [UIColor clearColor];

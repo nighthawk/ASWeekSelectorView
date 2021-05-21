@@ -48,9 +48,9 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, strong) UIColor *letterTextColor;
 
 /**
- Color used for the various separators at the bottom of the view and between days
+ Text color of the small letter labels
  */
-@property (nonatomic, strong) UIColor *lineColor;
+@property (nonatomic, strong) UIFont *letterFont;
 
 /**
  Locale used for formatting dates
