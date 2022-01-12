@@ -195,6 +195,7 @@
     CGRect leftFrame    = week0.frame;
     CGRect middleFrame  = week1.frame;
     CGRect rightFrame   = week2.frame;
+    NSInteger multiplier = self.effectiveUserInterfaceLayoutDirection == UIUserInterfaceLayoutDirectionLeftToRight ? 1 : -1;
     
     if (offset.x <= 0) {
       // 0 and 1 move right
@@ -204,14 +205,14 @@
       self.singleWeekViews[2] = week1;
       
       // 2 get's updated to -1
-      week2.startDate = [self dateByAddingDays:-7 toDate:week0.startDate];
+      week2.startDate = [self dateByAddingDays:-7*multiplier toDate:week0.startDate];
       week2.frame = leftFrame;
       self.singleWeekViews[0] = week2;
       
       if ([self.delegate respondsToSelector:@selector(weekSelectorDidSwipe:)]) {
         [self.delegate weekSelectorDidSwipe:self];
       }
-      NSDate *date = [self dateByAddingDays:-7 toDate:self.selectedDate];
+      NSDate *date = [self dateByAddingDays:-7*multiplier toDate:self.selectedDate];
       [self userWillSelectDate:date];
       [self userDidSelectDate:date];
       
@@ -223,14 +224,14 @@
       self.singleWeekViews[1] = week2;
 
       // 0 get's updated to 3
-      week0.startDate = [self dateByAddingDays:7 toDate:week2.startDate];
+      week0.startDate = [self dateByAddingDays:7*multiplier toDate:week2.startDate];
       week0.frame = rightFrame;
       self.singleWeekViews[2] = week0;
 
       if ([self.delegate respondsToSelector:@selector(weekSelectorDidSwipe:)]) {
         [self.delegate weekSelectorDidSwipe:self];
       }
-      NSDate *date = [self dateByAddingDays:7 toDate:self.selectedDate];
+      NSDate *date = [self dateByAddingDays:7*multiplier toDate:self.selectedDate];
       [self userWillSelectDate:date];
       [self userDidSelectDate:date];
     }
@@ -434,7 +435,8 @@
 
   // now we can build the #WEEKS subvies
   for (NSUInteger index = 0; index < WEEKS; index++) {
-    CGRect frame = CGRectMake(index * width, 0, width, height);
+    NSUInteger effectiveIndex = self.effectiveUserInterfaceLayoutDirection == UIUserInterfaceLayoutDirectionLeftToRight ? index : WEEKS - index - 1;
+    CGRect frame = CGRectMake(effectiveIndex * width, 0, width, height);
     ASSingleWeekView *singleView = [[ASSingleWeekView alloc] initWithFrame:frame];
     singleView.delegate = self;
     singleView.startDate = date; // needs to be set AFTER delegate

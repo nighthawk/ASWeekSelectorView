@@ -68,11 +68,19 @@
     UIView *subview = self.subviews[index];
     [subview removeFromSuperview];
   }
-  CGFloat widthPerItem = CGRectGetWidth(self.frame) / 7;
+  CGFloat totalWidth = CGRectGetWidth(self.frame);
+  CGFloat widthPerItem = totalWidth / 7;
   CGFloat itemHeight = CGRectGetHeight(self.frame);
   for (NSUInteger dayIndex = 0; dayIndex < 7; dayIndex++) {
     NSDate *date = [self dateByAddingDays:dayIndex toDate:self.startDate];
-    CGRect frame = CGRectMake(dayIndex * widthPerItem, 0, widthPerItem, itemHeight);
+    CGRect frame;
+    if (self.effectiveUserInterfaceLayoutDirection == UIUserInterfaceLayoutDirectionLeftToRight) {
+      frame = CGRectMake(dayIndex * widthPerItem, 0, widthPerItem, itemHeight);
+    } else {
+      frame = CGRectMake(totalWidth - dayIndex * widthPerItem - widthPerItem, 0, widthPerItem, itemHeight);
+    }
+    
+    
     UIView *view = [self.delegate singleWeekView:self
                                      viewForDate:date
                                        withFrame:frame];
