@@ -15,6 +15,12 @@ It's using the methodology described in Apple's excellent WWDC 2011 session 104 
 
 1) Add to your project.
 
+Using Swift Package Manager:
+
+```swift
+.package(url: "https://github.com/nighthawk/ASWeekSelectorView.git", from: "1.0.0")
+```
+
 Using Cocoapods:
 
 ```ruby
@@ -23,7 +29,7 @@ pod 'ASWeekSelectorView', '~> 1.0'
 
 Using Carthage:
 
-```
+```ruby
 github "nighthawk/ASWeekSelectorView"
 ```
 
