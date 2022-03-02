@@ -6,7 +6,11 @@
 //
 //
 
+#if SWIFT_PACKAGE
+#import <ASWeekSelectorView/ASWeekSelectorView.h>
+#else
 #import "ASWeekSelectorView.h"
+#endif
 
 #import <QuartzCore/QuartzCore.h>
 

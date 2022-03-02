@@ -17,9 +17,7 @@ let package = Package(
   ],
   targets: [
     .target(
-      name: "ASWeekSelectorView",
-      dependencies: [],
-      path: "Classes"
+      name: "ASWeekSelectorView"
     ),
   ]
 )

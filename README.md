@@ -27,12 +27,6 @@ Using Cocoapods:
 pod 'ASWeekSelectorView', '~> 1.0'
 ```
 
-Using Carthage:
-
-```ruby
-github "nighthawk/ASWeekSelectorView"
-```
-
 2) Add an instance of `ASWeekSelectorView` to your view hierarchy, configure it, provide a delegate and implement the delegate smethod. (Note that you won't need to use `ASDaySelectionView` and `ASSingleWeekView` yourself - they are internal helper class.)
 
 3) When using Auto Layout, adjust the frame in `viewWillLayoutSubviews`:
