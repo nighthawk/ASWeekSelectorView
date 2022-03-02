@@ -9,7 +9,7 @@ A mini week view to select a day. You can swipe through weeks and tap on a day t
  
 It's using the methodology described in Apple's excellent WWDC 2011 session 104 "Advanced ScrollView Techniques".
 
-![Week selector](https://github.com/nighthawk/ASWeekSelectorView/raw/master/weekpicker.gif)
+![Week selector](https://github.com/nighthawk/ASWeekSelectorView/raw/main/weekpicker.gif)
 
 # Setup
 
