@@ -1,9 +1,9 @@
 # `ASWeekSelectorView`
 
-[![CocoaPod badge w/ Platform](http://cocoapod-badges.herokuapp.com/p/ASWeekSelectorView/badge.png)](http://cocoadocs.org/docsets/ASWeekSelectorView)
-[![Travis build status](https://travis-ci.org/nighthawk/ASWeekSelectorView.svg?branch=master)](https://travis-ci.org/nighthawk/ASWeekSelectorView)
-[![CocoaPod badge w/ Version](http://cocoapod-badges.herokuapp.com/v/ASWeekSelectorView/badge.png)](http://cocoadocs.org/docsets/ASWeekSelectorView)
-[![Carthage compatible](https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat)](https://github.com/Carthage/Carthage)
+[![CocoaPod badge w/ platform](http://cocoapod-badges.herokuapp.com/p/ASWeekSelectorView/badge.png)](http://cocoadocs.org/docsets/ASWeekSelectorView)
+![GitHub release (latest by date)](https://img.shields.io/github/v/release/nighthawk/ASWeekSelectorView?display_name=tag&label=spm)
+[![CocoaPod badge w/ version](http://cocoapod-badges.herokuapp.com/v/ASWeekSelectorView/badge.png)](http://cocoadocs.org/docsets/ASWeekSelectorView)
+![GitHub all releases](https://img.shields.io/github/downloads/nighthawk/ASWeekSelectorView/total)
 
 A mini week view to select a day. You can swipe through weeks and tap on a day to select them, somewhat similar to the iOS calendar app (since iOS 7).
  
