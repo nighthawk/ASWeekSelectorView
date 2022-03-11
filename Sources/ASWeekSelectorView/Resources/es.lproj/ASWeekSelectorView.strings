@@ -1,0 +1,3 @@
+/* Accessibility description when paging through weeks. Supplied %@ is string for the start date. */
+"Week of %@" = "Semana de %@";
+
